@@ -1,0 +1,17 @@
+/py10
+/DjTgWebApp/bin
+/DjTgWebApp/static
+/DjTgWebApp/tgWebAppRender/__pycache__
+/DjTgWebApp/tgWebAppRender/static
+/DjTgWebApp/tgWebAppRender/templates
+/DjTgWebApp/DjTgWebApp/settings.py
+/DjTgWebApp/DjTgWebApp/gunicorn_config.py
+/DjTgWebApp/DjTgWebApp/__pycache__
+/DjTgWebApp/tgWebAppRender/migrations
+
+DjTgWebApp/key
+DjTgWebApp/key.pub
+DjTgWebApp/db.sqlite3
+tgView/__pycache__/actions.cpython-310.pyc
+tgView/__pycache__/db.cpython-310.pyc
+tgView/data.db
