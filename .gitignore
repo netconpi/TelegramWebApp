@@ -15,3 +15,5 @@ DjTgWebApp/db.sqlite3
 tgView/__pycache__/actions.cpython-310.pyc
 tgView/__pycache__/db.cpython-310.pyc
 tgView/data.db
+tgView/__pycache__/key_markups.cpython-310.pyc
+tgView/__pycache__/text.cpython-310.pyc

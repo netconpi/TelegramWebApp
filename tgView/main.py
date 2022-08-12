@@ -9,11 +9,7 @@ def main() -> None:
     application = Application.builder().token("5473222973:AAHnYX5GtYI77gP0Qvm5MFcaTNx_39Uo0KE").build()
 
     application.add_handler(CommandHandler("start", act.start))
-    application.add_handler(MessageHandler(
-    	filters.StatusUpdate.WEB_APP_DATA, act.web_app_data
-    ))
-    # application.add_handler(CommandHandler("inline_register", act.inline))
-    application.add_handler(CallbackQueryHandler(act.callback))
+
 
     # Run the bot until the user presses Ctrl-C 
     application.run_polling()
