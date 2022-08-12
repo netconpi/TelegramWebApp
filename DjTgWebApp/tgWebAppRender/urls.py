@@ -11,7 +11,7 @@ urlpatterns = [
     # Only registred user flow
     # LK
     path('lk-subscribed/', views.LkSubscribed.as_view(), name='lk-subscribed'),
-    path('lk/', views.Lk.as_view(), name='lk'),
+    path('lk/', views.lk, name='lk'),
     path('client-profile/', views.ClientProfile.as_view(), name='client-profile'),
     # Events pages
     path('calendar-task-list/', views.CalendarTaskList.as_view(), name='calendar-task-list'),

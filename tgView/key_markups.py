@@ -13,15 +13,15 @@ add_company = [
 
 # add_company_markup = InlineKeyboardMarkup(add_company)
 
-
-start = [
-    [
-        InlineKeyboardButton(
-            text.LK_BTN, 
-            # callback_data="Btn", 
-            web_app=WebAppInfo(url="https://singup.ru/lk"),
-        ),
-    ],
-]
+def generate_start(user_id):
+    start = [
+        [
+            InlineKeyboardButton(
+                text.LK_BTN, 
+                web_app=WebAppInfo(url=f"https://singup.ru/lk?tg_id={user_id}"),
+            ),
+        ],
+    ]
+    return start
 
 # start_markup = InlineKeyboardMarkup(start)

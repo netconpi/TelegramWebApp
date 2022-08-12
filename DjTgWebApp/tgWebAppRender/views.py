@@ -152,15 +152,15 @@ class LkSubscribed(View):
         context = {}
         return render(request, 'tgWebAppRender/lk-subscribed.html', context)
 
-class Lk(View):
-    # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/lk.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/lk.html', context)
+
+def lk(request):
+    tg_id = request.GET.get('tg_id')
+    company = Company.objects.filter(telegram_id=tg_id)
+    try:
+        return render(request, 'tgWebAppRender/lk.html', context={'company': company[0]})
+    except Exception as e:
+        return render(request, 'tgWebAppRender/lk.html', context={'company': 'as'})
+
 
 class Notifications(View):
     # main render logic 

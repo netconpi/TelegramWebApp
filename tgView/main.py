@@ -8,8 +8,11 @@ def main() -> None:
     # Create the Application and pass it your bot's token.
     application = Application.builder().token("5473222973:AAHnYX5GtYI77gP0Qvm5MFcaTNx_39Uo0KE").build()
 
-    application.add_handler(CommandHandler("start", act.start))
+    application.add_handler(CallbackQueryHandler(act.callback))
 
+    # Start command 
+    # TODO: add more pages
+    application.add_handler(CommandHandler("start", act.start))
 
     # Run the bot until the user presses Ctrl-C 
     application.run_polling()

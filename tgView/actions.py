@@ -19,6 +19,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     else:
         await update.message.reply_text(
             text.START,
-            reply_markup=InlineKeyboardMarkup(key_markups.start),
+            reply_markup=InlineKeyboardMarkup(key_markups.generate_start(update.message['chat']['id'])),
         )
+
+
+async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    pass
 
