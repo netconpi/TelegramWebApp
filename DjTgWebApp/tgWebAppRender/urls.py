@@ -21,7 +21,7 @@ urlpatterns = [
     path('card-choose/', views.CardChoose.as_view(), name='card-choose'),
     path('subscribe-choose/', views.SubscribeChoose.as_view(), name='subscribe-choose'),
     # Notifications
-    path('notifications/', views.Notifications.as_view(), name='notifications'),
+    path('notifications/', views.notifications, name='notifications'),
 
     # Unused
     path('components/', views.Components.as_view(), name='components'),

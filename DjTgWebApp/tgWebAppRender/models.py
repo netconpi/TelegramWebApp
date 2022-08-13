@@ -44,10 +44,12 @@ class TelegramData(models.Model):
 
 class Notification(models.Model):
     company_link = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name="Company link", null=True)
-    starts = models.DateTimeField(auto_now_add=True, verbose_name="Starts at: ")
+    starts = models.DateTimeField(verbose_name="Starts at: ")
     status = models.TextField(null=True, blank=True, verbose_name="Status")
     # user_attached = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name="For who:")
-    user_attached = models.ManyToManyField(Company, blank=True, symmetrical=False, related_name='user_attached')
+    # user_attached = models.ManyToManyField(Company, blank=True, symmetrical=False, related_name='user_attached')
+    created_by = models.CharField(max_length=255, verbose_name='created telegram', null=True)
+    to_user = models.CharField(max_length=255, verbose_name='to_user telegram', null=True)
 
     def __str__(self) -> str:
         return f"{self.company_link}"

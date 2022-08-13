@@ -157,20 +157,19 @@ def lk(request):
     tg_id = request.GET.get('tg_id')
     company = Company.objects.filter(telegram_id=tg_id)
     try:
-        return render(request, 'tgWebAppRender/lk.html', context={'company': company[0]})
+        return render(request, 'tgWebAppRender/client-profile.html', context={'company': company[0]})
     except Exception as e:
-        return render(request, 'tgWebAppRender/lk.html', context={'company': 'as'})
+        return render(request, 'tgWebAppRender/client-profile.html', context={'company': 'aasds'})
 
 
-class Notifications(View):
+def notifications(request):
     # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/notifications.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/notifications.html', context)
+    tg_id = request.GET.get('tg_id')
+    notifications = Notification.objects.filter(to_user=tg_id)
+    try:
+        return render(request, 'tgWebAppRender/notifications.html', context={'notifications': notifications})
+    except Exception as e:
+        return render(request, 'tgWebAppRender/notifications.html', context={'notifications': 'aasasdasdds'})
 
 
 class SubscribeChoose(View):

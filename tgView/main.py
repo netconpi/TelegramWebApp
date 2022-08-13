@@ -13,6 +13,7 @@ def main() -> None:
     # Start command 
     # TODO: add more pages
     application.add_handler(CommandHandler("start", act.start))
+    application.add_handler(CommandHandler("events", act.start))
 
     # Run the bot until the user presses Ctrl-C 
     application.run_polling()

@@ -1,6 +1,6 @@
 
 import text
-from telegram import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove, WebAppInfo, InlineKeyboardButton
+from telegram import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove, WebAppInfo, InlineKeyboardButton, InlineKeyboardMarkup
 
 add_company = [
     [
@@ -11,7 +11,7 @@ add_company = [
     ],
 ]
 
-# add_company_markup = InlineKeyboardMarkup(add_company)
+add_company_markup = InlineKeyboardMarkup(add_company)
 
 def generate_start(user_id):
     start = [
@@ -19,6 +19,10 @@ def generate_start(user_id):
             InlineKeyboardButton(
                 text.LK_BTN, 
                 web_app=WebAppInfo(url=f"https://singup.ru/lk?tg_id={user_id}"),
+            ),
+            InlineKeyboardButton(
+                text.NOTIFICATION_BTN, 
+                web_app=WebAppInfo(url=f"https://singup.ru/notifications?tg_id={user_id}"),
             ),
         ],
     ]
