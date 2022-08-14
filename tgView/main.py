@@ -21,7 +21,6 @@ def main() -> None:
     # Start command 
     # TODO: add more pages
     application.add_handler(CommandHandler("start", act.start))
-    application.add_handler(CommandHandler("events", act.start))
 
     # Logic to start as Company ()
     # Become Executor handler
@@ -39,6 +38,8 @@ def main() -> None:
     )
 
     application.add_handler(executor)
+
+    application.add_handler(CommandHandler("add_event", act.addevent))
 
     # Run the bot until the user presses Ctrl-C 
     application.run_polling()

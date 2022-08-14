@@ -29,6 +29,18 @@ def generate_start(user_id):
     return start
 
 
+def add_event(user_id):
+    start = [
+        [
+            InlineKeyboardButton(
+                text.LK_BTN, 
+                web_app=WebAppInfo(url=f"https://singup.ru/creat_ev?tg_id={user_id}"),
+            ),
+        ],
+    ]
+    return start
+
+
 def agree_executor():
     reply_keyboard = [
         [text.EXEC_AGREE],

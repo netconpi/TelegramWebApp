@@ -65,7 +65,6 @@ class Event(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name="Description")
     link_method = models.TextField(null=True, blank=True, verbose_name="Link method")
     meet_timing = models.TextField(null=True, blank=True, verbose_name="Meet timing")
-    # links = models.TextField(null=True, blank=True, verbose_name="Links")
     user_attached = models.ManyToManyField(Company, blank=True, symmetrical=False, related_name='attached')
     category = models.TextField(null=True, blank=True, verbose_name="Cetegory")
     event_date = models.DateTimeField(auto_now_add=True, verbose_name="Date: ")

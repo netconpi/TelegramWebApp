@@ -57,6 +57,14 @@ async def exec_state(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return ConversationHandler.END
 
 
+async def addevent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        text.CANCEL, 
+        reply_markup=InlineKeyboardMarkup(key_markups.add_event(update.message['chat']['id'])),
+    )
+
+    # return ConversationHandler.END
+
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""

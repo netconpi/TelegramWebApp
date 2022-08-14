@@ -50,7 +50,6 @@ class AddCompany(CreateView):
         context = super().get_context_data(**kwargs)
         return context
         
-        
 class LoginHome(View):
     # main render logic 
     def get(self, request):
@@ -71,7 +70,6 @@ class LoginIn(View):
         context = {}
         return render(request, 'tgWebAppRender/login-in.html', context)
 
-
 class CalendarTaskList(View):
     # main render logic 
     def get(self, request):
@@ -81,6 +79,53 @@ class CalendarTaskList(View):
     def post(self, request):
         context = {}
         return render(request, 'tgWebAppRender/calendar-task-list.html', context)
+
+def create_event(request):
+
+    if request.method == "POST":
+        return render(request, 'tgWebAppRender/404.html', context={'notifications': request})
+    else:
+        tg_id = request.GET.get('tg_id')
+        # Form custom validation
+        data = {
+            'telegram_id': request.GET.get('telegram_id'),
+            'company_name': request.GET.get('company_name'),
+            'company_description': request.GET.get('company_description'),
+            'date': request.GET.get('date'),
+            'time_start': request.GET.get('time_start'),
+            'time_end': request.GET.get('time_end'),
+            'reminder': request.GET.get('reminder'),
+            'category': request.GET.get('category'),
+        }
+        if not data['telegram_id']:
+            return render(request, 'tgWebAppRender/create_event.html', context={'notifications': request})
+        else:
+            important = 0
+            if data['company_name'] != None and data['company_name'] != '':
+                important += 1
+            if data['company_description'] != None and data['company_description'] != '':
+                important += 1
+            if data['date'] != None and data['date'] != '':
+                important += 1
+            if data['time_start'] != None and data['time_start'] != '':
+                important += 1
+            if data['time_end'] != None and data['time_end'] != '':
+                important += 1
+
+            if important == 5: 
+                event = Event(
+                    created_by = data['telegram_id'],
+                    name = data['company_name'],
+                    description = data['company_description'],
+                    meet_timing = f"{data['date']} {data['time_start']} {data['time_end']}",
+                )
+                event.save()
+                send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было добавлено! ")
+                return render(request, 'tgWebAppRender/create_event.html', context={'close': 1})
+            else:
+                return render(request, 'tgWebAppRender/create_event.html', context={'warn': 1})
+            
+
 
 class CardAdd(View):
     # main render logic 
@@ -152,7 +197,6 @@ class LkSubscribed(View):
         context = {}
         return render(request, 'tgWebAppRender/lk-subscribed.html', context)
 
-
 def lk(request):
     tg_id = request.GET.get('tg_id')
     company = Company.objects.filter(telegram_id=tg_id)
@@ -160,7 +204,6 @@ def lk(request):
         return render(request, 'tgWebAppRender/client-profile.html', context={'company': company[0]})
     except Exception as e:
         return render(request, 'tgWebAppRender/client-profile.html', context={'company': ''})
-
 
 def notifications(request):
     # main render logic 
@@ -170,7 +213,6 @@ def notifications(request):
         return render(request, 'tgWebAppRender/notifications.html', context={'notifications': notifications})
     except Exception as e:
         return render(request, 'tgWebAppRender/notifications.html', context={'notifications': ''})
-
 
 class SubscribeChoose(View):
     # main render logic 
@@ -182,7 +224,6 @@ class SubscribeChoose(View):
         context = {}
         return render(request, 'tgWebAppRender/subscribe-choose.html', context)
 
-
 class NotFound(View):
     # main render logic 
     def get(self, request):
@@ -192,4 +233,3 @@ class NotFound(View):
     def post(self, request):
         context = {}
         return render(request, 'tgWebAppRender/404.html', context)
-
