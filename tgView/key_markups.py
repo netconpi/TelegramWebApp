@@ -28,4 +28,13 @@ def generate_start(user_id):
     ]
     return start
 
+
+def agree_executor():
+    reply_keyboard = [
+        [text.EXEC_AGREE],
+        [text.EXEC_CANCEL],
+    ]
+    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+
+    return markup
 # start_markup = InlineKeyboardMarkup(start)

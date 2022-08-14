@@ -21,6 +21,7 @@ class Company(models.Model):
     password_confirm_unsafe = models.CharField(max_length=255, blank=True, verbose_name='Password unsafe', null=True)
     payment_data_unsafe = models.TextField(null=True, blank=True, verbose_name="Payment data unsafe")
     photo_url = models.TextField(null=True, blank=True, verbose_name="Photo url")
+    company_type = models.TextField(null=True, blank=True, verbose_name="Company Type")
 
     def __str__(self) -> str:
         return f"Компания: {self.name}"

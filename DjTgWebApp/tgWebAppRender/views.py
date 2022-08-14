@@ -159,7 +159,7 @@ def lk(request):
     try:
         return render(request, 'tgWebAppRender/client-profile.html', context={'company': company[0]})
     except Exception as e:
-        return render(request, 'tgWebAppRender/client-profile.html', context={'company': 'aasds'})
+        return render(request, 'tgWebAppRender/client-profile.html', context={'company': ''})
 
 
 def notifications(request):
@@ -169,7 +169,7 @@ def notifications(request):
     try:
         return render(request, 'tgWebAppRender/notifications.html', context={'notifications': notifications})
     except Exception as e:
-        return render(request, 'tgWebAppRender/notifications.html', context={'notifications': 'aasasdasdds'})
+        return render(request, 'tgWebAppRender/notifications.html', context={'notifications': ''})
 
 
 class SubscribeChoose(View):

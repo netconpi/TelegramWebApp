@@ -1,6 +1,14 @@
 
 import actions as act
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler
+import text as msg
+from telegram.ext import (
+    Application, 
+    CommandHandler, 
+    MessageHandler, 
+    filters, 
+    CallbackQueryHandler,
+    ConversationHandler,
+)
 
 
 def main() -> None:
@@ -14,6 +22,23 @@ def main() -> None:
     # TODO: add more pages
     application.add_handler(CommandHandler("start", act.start))
     application.add_handler(CommandHandler("events", act.start))
+
+    # Logic to start as Company ()
+    # Become Executor handler
+    executor = ConversationHandler(
+        entry_points=[CommandHandler("become_executor", act.executor)],
+        states={
+            act.AGREE: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND, 
+                    act.exec_state,
+                ),
+            ],
+        },
+        fallbacks=[CommandHandler("cancel", act.cancel)],
+    )
+
+    application.add_handler(executor)
 
     # Run the bot until the user presses Ctrl-C 
     application.run_polling()

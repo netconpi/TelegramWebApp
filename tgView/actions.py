@@ -1,10 +1,13 @@
 
 from telegram import Update, InlineKeyboardMarkup
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, ConversationHandler
 import json
 import db
 import text
 import key_markups
+
+# BECOME_EXECUTOR STATES
+AGREE = range(1)
 
 
 # Define a `/start` command handler.
@@ -22,6 +25,47 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             reply_markup=InlineKeyboardMarkup(key_markups.generate_start(update.message['chat']['id'])),
         )
 
+
+async def executor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    print(update)
+    await update.message.reply_text(
+        text.EXEC_INTRO,
+        reply_markup=key_markups.agree_executor(),
+    )
+
+    return AGREE
+
+
+async def exec_state(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+
+    print(update.message.text)
+
+    if update.message.text == text.EXEC_AGREE: 
+
+        db.postgree_commit(f'''UPDATE "tgWebAppRender_company" SET company_type='executor' WHERE telegram_id=''' + f"'{update.message['chat']['id']}'")
+
+        await update.message.reply_text(
+            text.EXEC_BECOME,
+            reply_markup=key_markups.ReplyKeyboardRemove(),
+        )
+    else: 
+        await update.message.reply_text(
+            text.EXEC_NOPE,
+            reply_markup=key_markups.ReplyKeyboardRemove(),
+        )
+    
+    return ConversationHandler.END
+
+
+
+async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Cancels and ends the conversation."""
+    await update.message.reply_text(
+        text.CANCEL, reply_markup=key_markups.ReplyKeyboardRemove()
+    )
+
+    return ConversationHandler.END
+    
 
 async def callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     pass
