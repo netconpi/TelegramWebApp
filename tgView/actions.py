@@ -17,7 +17,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not registred:
         await update.message.reply_text(
             text.INVITE_TO_REGISTER,
-            reply_markup=InlineKeyboardMarkup(key_markups.add_company_markup),
+            reply_markup=InlineKeyboardMarkup(key_markups.add_company),
         )
     else:
         await update.message.reply_text(

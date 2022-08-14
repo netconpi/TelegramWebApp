@@ -11,7 +11,6 @@ add_company = [
     ],
 ]
 
-add_company_markup = InlineKeyboardMarkup(add_company)
 
 def generate_start(user_id):
     start = [
