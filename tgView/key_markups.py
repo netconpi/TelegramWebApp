@@ -32,7 +32,7 @@ def add_event(user_id):
     start = [
         [
             InlineKeyboardButton(
-                text.LK_BTN, 
+                text.EVENT_BTN, 
                 web_app=WebAppInfo(url=f"https://singup.ru/creat_ev?tg_id={user_id}"),
             ),
         ],

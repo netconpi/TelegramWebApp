@@ -38,8 +38,9 @@ def main() -> None:
     )
 
     application.add_handler(executor)
-
     application.add_handler(CommandHandler("add_event", act.addevent))
+    application.add_handler(CommandHandler("pending", act.pending))
+
 
     # Run the bot until the user presses Ctrl-C 
     application.run_polling()

@@ -59,11 +59,18 @@ async def exec_state(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 async def addevent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        text.CANCEL, 
+        text.EVENT, 
         reply_markup=InlineKeyboardMarkup(key_markups.add_event(update.message['chat']['id'])),
     )
 
     # return ConversationHandler.END
+
+
+async def pending(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        text.EVENT, 
+        reply_markup=InlineKeyboardMarkup(key_markups.add_event(update.message['chat']['id'])),
+    )
 
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -71,7 +78,6 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text(
         text.CANCEL, reply_markup=key_markups.ReplyKeyboardRemove()
     )
-
     return ConversationHandler.END
     
 
