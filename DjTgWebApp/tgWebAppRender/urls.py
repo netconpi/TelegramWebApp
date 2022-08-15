@@ -14,7 +14,7 @@ urlpatterns = [
     path('lk/', views.lk, name='lk'),
     path('client-profile/', views.ClientProfile.as_view(), name='client-profile'),
     # Events pages
-    path('calendar-task-list/', views.CalendarTaskList.as_view(), name='calendar-task-list'),
+    path('calendar-task-list/', views.calendartasklist, name='calendar-task-list'),
     path('client-free-times/', views.ClientFreeTimes.as_view(), name='client-free-times'),
     path('creat_ev/', views.create_event, name='new_event'),
     # Subscribe

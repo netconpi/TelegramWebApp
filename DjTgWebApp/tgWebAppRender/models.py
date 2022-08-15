@@ -60,6 +60,7 @@ class Notification(models.Model):
 
 
 class Event(models.Model):
+    company_link = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name="Company link", null=True)
     created_by = models.CharField(max_length=255, verbose_name='Tg ID', null=True)
     name = models.CharField(max_length=255, verbose_name='Name', null=True)
     description = models.TextField(null=True, blank=True, verbose_name="Description")
@@ -67,7 +68,7 @@ class Event(models.Model):
     meet_timing = models.TextField(null=True, blank=True, verbose_name="Meet timing")
     user_attached = models.ManyToManyField(Company, blank=True, symmetrical=False, related_name='attached')
     category = models.TextField(null=True, blank=True, verbose_name="Cetegory")
-    event_date = models.DateTimeField(auto_now_add=True, verbose_name="Date: ")
+    event_date = models.DateTimeField(verbose_name="Date: ")
 
     def __str__(self) -> str:
         return f"{self.company_link}"

@@ -26,6 +26,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
 
 
+#Define executior be process
 async def executor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     print(update)
     await update.message.reply_text(
@@ -36,6 +37,7 @@ async def executor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return AGREE
 
 
+# continue executior confirm 
 async def exec_state(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
     print(update.message.text)
@@ -57,6 +59,7 @@ async def exec_state(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return ConversationHandler.END
 
 
+# Add event def 
 async def addevent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         text.EVENT, 
@@ -66,10 +69,11 @@ async def addevent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # return ConversationHandler.END
 
 
-async def pending(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+# Edit event page (Calendar + View + Edit)
+async def editevent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         text.EVENT, 
-        reply_markup=InlineKeyboardMarkup(key_markups.add_event(update.message['chat']['id'])),
+        reply_markup=InlineKeyboardMarkup(key_markups.edit_event(update.message['chat']['id'])),
     )
 
 

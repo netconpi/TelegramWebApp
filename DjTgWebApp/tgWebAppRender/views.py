@@ -70,15 +70,19 @@ class LoginIn(View):
         context = {}
         return render(request, 'tgWebAppRender/login-in.html', context)
 
-class CalendarTaskList(View):
+def calendartasklist(request):
     # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/calendar-task-list.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/calendar-task-list.html', context)
+    # Trash moment 
+    tg_id = request.GET.get('tg_id')
+    date = request.GET.get('date')
+
+    if date != None:
+        events = Event.objects.filter(event_date__date=date)
+    else:
+        events = []
+    
+
+    return render(request, 'tgWebAppRender/calendar-task-list.html', {'date': date, 'events': events}) 
 
 def create_event(request):
 
@@ -124,8 +128,6 @@ def create_event(request):
                 return render(request, 'tgWebAppRender/create_event.html', context={'close': 1})
             else:
                 return render(request, 'tgWebAppRender/create_event.html', context={'warn': 1})
-            
-
 
 class CardAdd(View):
     # main render logic 

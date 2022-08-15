@@ -29,7 +29,7 @@ def generate_start(user_id):
 
 
 def add_event(user_id):
-    start = [
+    event = [
         [
             InlineKeyboardButton(
                 text.EVENT_BTN, 
@@ -37,7 +37,19 @@ def add_event(user_id):
             ),
         ],
     ]
-    return start
+    return event
+
+
+def edit_event(user_id):
+    event = [
+        [
+            InlineKeyboardButton(
+                text.EVENT_BTN, 
+                web_app=WebAppInfo(url=f"https://singup.ru/calendar-task-list?tg_id={user_id}"),
+            ),
+        ],
+    ]
+    return event
 
 
 def agree_executor():
