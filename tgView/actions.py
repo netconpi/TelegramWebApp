@@ -70,10 +70,10 @@ async def addevent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 # Edit event page (Calendar + View + Edit)
-async def editevent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def events(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        text.EVENT, 
-        reply_markup=InlineKeyboardMarkup(key_markups.edit_event(update.message['chat']['id'])),
+        text.EVENTS, 
+        reply_markup=InlineKeyboardMarkup(key_markups.events(update.message['chat']['id'])),
     )
 
 

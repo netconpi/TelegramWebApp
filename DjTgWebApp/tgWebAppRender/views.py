@@ -80,9 +80,8 @@ def calendartasklist(request):
         events = Event.objects.filter(event_date__date=date)
     else:
         events = []
-    
 
-    return render(request, 'tgWebAppRender/calendar-task-list.html', {'date': date, 'events': events}) 
+    return render(request, 'tgWebAppRender/calendar-task-list.html', {'date': date, 'events': events})
 
 def create_event(request):
 
