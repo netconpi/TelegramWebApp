@@ -59,6 +59,14 @@ class Notification(models.Model):
         ordering = ['starts']
 
 
+class Tag(models.Model):
+    created_by = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name="Owner link", null=True)
+    name = models.CharField(max_length=255, verbose_name='Tag name', null=True)
+    color = models.CharField(max_length=255, verbose_name='Color', null=True)
+
+    def __str__(self) -> str:
+        return f"{self.created_by.name}, {self.name}"
+
 class Event(models.Model):
     company_link = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name="Company link", null=True)
     created_by = models.CharField(max_length=255, verbose_name='Tg ID', null=True)
@@ -69,9 +77,13 @@ class Event(models.Model):
     user_attached = models.ManyToManyField(Company, blank=True, symmetrical=False, related_name='attached')
     category = models.TextField(null=True, blank=True, verbose_name="Cetegory")
     event_date = models.DateTimeField(verbose_name="Date: ")
+    tag = models.ForeignKey(Tag, on_delete=models.PROTECT, verbose_name="Tag id", null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.company_link}"
 
     class Meta:
         ordering = ['event_date']
+
+
+

@@ -86,7 +86,7 @@ def calendartasklist(request):
 def create_event(request):
 
     if request.method == "POST":
-        return render(request, 'tgWebAppRender/404.html', context={'notifications': request})
+        return render(request, 'tgWebAppRender/404.html', context={'notificat': request})
     else:
         tg_id = request.GET.get('tg_id')
         # Form custom validation
@@ -100,8 +100,10 @@ def create_event(request):
             'reminder': request.GET.get('reminder'),
             'category': request.GET.get('category'),
         }
+        tags = Tag.objects.filter(created_by__telegram_id = tg_id)
+        print(tags)
         if not data['telegram_id']:
-            return render(request, 'tgWebAppRender/create_event.html', context={'notifications': request})
+            return render(request, 'tgWebAppRender/create_event.html', context={'tags': tags})
         else:
             important = 0
             if data['company_name'] != None and data['company_name'] != '':
@@ -116,17 +118,27 @@ def create_event(request):
                 important += 1
 
             if important == 5: 
+                tmp_date_holder = data['date'].split('/')
+                date_to_datetime = tmp_date_holder[2] + "-" + tmp_date_holder[1] + "-" + tmp_date_holder[0]
+                del tmp_date_holder
+                tag_id = request.GET.get('tag_id')
+                if tag_id != '':
+                    tag_object = Tag.objects.get(id=tag_id)
+                else:
+                    tag_object = None
                 event = Event(
                     created_by = data['telegram_id'],
                     name = data['company_name'],
                     description = data['company_description'],
                     meet_timing = f"{data['date']} {data['time_start']} {data['time_end']}",
+                    event_date = f"{date_to_datetime} {data['time_start']}:00.000 +0300",
+                    tag = tag_object
                 )
                 event.save()
                 send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было добавлено! ")
                 return render(request, 'tgWebAppRender/create_event.html', context={'close': 1})
             else:
-                return render(request, 'tgWebAppRender/create_event.html', context={'warn': 1})
+                return render(request, 'tgWebAppRender/create_event.html', context={'warn': 1, 'tags': tags})
 
 class CardAdd(View):
     # main render logic 
