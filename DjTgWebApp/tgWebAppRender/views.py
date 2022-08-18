@@ -50,9 +50,9 @@ def basic_registration(request):
                 # )
                 # event.save()
                 # send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было добавлено! ")
-                return render(request, 'tgWebAppRender/user_registration.html', context={'close': 1})
-            else:
-                return render(request, 'tgWebAppRender/user_registration.html', context={'warn': 1, 'tags': tags})
+                # return render(request, 'tgWebAppRender/user_registration.html', context={'close': 1})
+            # else:
+        return render(request, 'tgWebAppRender/user_registration.html', context={'warn': 1, 'tags': tags})
 
 
 class AddCompany(CreateView):

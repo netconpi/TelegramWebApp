@@ -8,9 +8,9 @@ def postgree_fetch(requs_db: str):
     try:
         with psycopg2.connect(
                     host = 'localhost',
-                    dbname = 'singup_db',
-                    user = 'sing_main',
-                    password = 'sing_mainPassword2022',
+                    dbname = 'dbms_db',
+                    user = 'dbms',
+                    password = 'secretPassword',
                     port = 5432) as conn:
 
             with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
