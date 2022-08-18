@@ -20,6 +20,7 @@ def main() -> None:
 
     # Start command 
     # TODO: add more pages
+    # Edit registration screen
     application.add_handler(CommandHandler("start", act.start))
 
     # Logic to start as Company ()

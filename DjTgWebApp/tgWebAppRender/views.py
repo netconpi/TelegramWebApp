@@ -21,6 +21,40 @@ def send_telegram(chat_id, message):
     return res
 
 
+def basic_registration(request):
+    if request.method == "POST":
+        return render(request, 'tgWebAppRender/404.html', context={'404': {}})
+    else:
+        tg_id = request.GET.get('tg_id')
+        data = {
+            'telegram_id': request.GET.get('telegram_id'),
+            'name': request.GET.get('company_name'),
+            'description': request.GET.get('company_description'),
+            'whatsapp': request.GET.get('whatsapp'),
+            'tg_link': request.GET.get('tg_link'),
+            'email': request.GET.get('email'),
+        }
+        if not data['telegram_id']:
+            return render(request, 'tgWebAppRender/user_registration.html', context={'first': True})
+        else:
+            # TODO: data validation
+            pass
+                # event = Event(
+                #     company_link = Company.objects.get(telegram_id=data['telegram_id']),
+                #     created_by = data['telegram_id'],
+                #     name = data['company_name'],
+                #     description = data['company_description'],
+                #     meet_timing = f"{data['date']} {data['time_start']} {data['time_end']}",
+                #     event_date = f"{date_to_datetime} {data['time_start']}:00.000 +0300",
+                #     tag = tag_object
+                # )
+                # event.save()
+                # send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было добавлено! ")
+                return render(request, 'tgWebAppRender/user_registration.html', context={'close': 1})
+            else:
+                return render(request, 'tgWebAppRender/user_registration.html', context={'warn': 1, 'tags': tags})
+
+
 class AddCompany(CreateView):
     model = Company
     fields = [
