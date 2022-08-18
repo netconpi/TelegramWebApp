@@ -127,6 +127,7 @@ def create_event(request):
                 else:
                     tag_object = None
                 event = Event(
+                    company_link = Company.objects.get(telegram_id=data['telegram_id']),
                     created_by = data['telegram_id'],
                     name = data['company_name'],
                     description = data['company_description'],

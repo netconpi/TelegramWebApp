@@ -3,7 +3,6 @@ from django.db import models
 # Create your models here.
 class Company(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Назначено")
-    # subject = models.ForeignKey(Subject, on_delete=models.PROTECT, verbose_name="Предмет", null=True)
     telegram_id = models.CharField(max_length=255, verbose_name='Tg ID', null=True)
     name = models.CharField(max_length=255, verbose_name='Name', null=True)
     description = models.TextField(null=True, blank=True, verbose_name="Description")
