@@ -6,7 +6,7 @@ add_company = [
     [
         InlineKeyboardButton(
             text.INVITE_TO_REGISTER_BTN, 
-            web_app=WebAppInfo(url="https://singup.ru/add_company"),
+            web_app=WebAppInfo(url="https://singup.ru/create_account/"),
         ),
     ],
 ]

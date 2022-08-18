@@ -22,37 +22,58 @@ def send_telegram(chat_id, message):
 
 
 def basic_registration(request):
+    data = {
+        'telegram_id': request.POST.get('telegram_id'),
+        'name': request.POST.get('name'),
+        'description': request.POST.get('description'),
+        'whatsapp': request.POST.get('whatsapp'),
+        'email': request.POST.get('email'),
+    }
+
+    print(f'Basic reg: {data}')
+
     if request.method == "POST":
-        return render(request, 'tgWebAppRender/404.html', context={'404': {}})
-    else:
-        tg_id = request.GET.get('tg_id')
-        data = {
-            'telegram_id': request.GET.get('telegram_id'),
-            'name': request.GET.get('company_name'),
-            'description': request.GET.get('company_description'),
-            'whatsapp': request.GET.get('whatsapp'),
-            'tg_link': request.GET.get('tg_link'),
-            'email': request.GET.get('email'),
+
+        r_context = {
+            'error': 'Не все поля заполнены. Обратите внимание на поле: не получен телеграм-id! Напишите @ntcad'
         }
-        if not data['telegram_id']:
-            return render(request, 'tgWebAppRender/user_registration.html', context={'first': True})
+
+        # Useless additional check
+        if data['name'] != '':
+            not_fild = []
+            for k, v in data.items():
+                if v == '':
+                    not_fild.append(k)
+
+            if len(not_fild) == 0:
+                new_user = UserApp(
+                    telegram_id = data['telegram_id'],
+                    name = data['name'],
+                    description = data['description'],
+                    email = data['email'],
+                    whatsapp = data['whatsapp'],
+                )
+
+                try:
+                    new_user.save()
+                    send_telegram(data['telegram_id'], f"Поздравляю! Твой аккаунт успешно создан. Приятного использования")
+                except Exception as e:
+                    send_telegram(data['telegram_id'], f"Произошла ошибка, отправь @ntcad: {e}")
+                    r_context['close'] = 1
+                    return render(request, 'tgWebAppRender/user_registration.html', context=r_context)
+
+            else:
+                r_context['error'] = 'Вы не заполнили поля: \n'
+                for i in not_fild:
+                    r_context['error'] += f'- {i}\n'
+                return render(request, 'tgWebAppRender/user_registration.html', context=r_context)
+
+            return render(request, 'tgWebAppRender/user_registration.html', context={'close': True})
         else:
-            # TODO: data validation
-            pass
-                # event = Event(
-                #     company_link = Company.objects.get(telegram_id=data['telegram_id']),
-                #     created_by = data['telegram_id'],
-                #     name = data['company_name'],
-                #     description = data['company_description'],
-                #     meet_timing = f"{data['date']} {data['time_start']} {data['time_end']}",
-                #     event_date = f"{date_to_datetime} {data['time_start']}:00.000 +0300",
-                #     tag = tag_object
-                # )
-                # event.save()
-                # send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было добавлено! ")
-                # return render(request, 'tgWebAppRender/user_registration.html', context={'close': 1})
-            # else:
-        return render(request, 'tgWebAppRender/user_registration.html', context={'warn': 1, 'tags': tags})
+            return render(request, 'tgWebAppRender/user_registration.html', context=r_context)
+
+    else:
+        return render(request, 'tgWebAppRender/user_registration.html', context={'error': 'Magestic'})
 
 
 class AddCompany(CreateView):

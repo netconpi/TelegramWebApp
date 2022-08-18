@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class User(models.Model):
+class UserApp(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Назначено")
     telegram_id = models.CharField(max_length=255, verbose_name='Tg ID', null=True)
     name = models.CharField(max_length=255, verbose_name='Name', null=True)
