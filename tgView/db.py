@@ -63,8 +63,11 @@ def commit(req):
         return 0
 
 
-def check_company(telegram_id):
-    registred = postgree_fetch(f'''SELECT telegram_id FROM "tgWebAppRender_company" WHERE telegram_id=''' + f"'{telegram_id}'")
+def check(telegram_id, typee='company'):
+    if typee == 'company':
+        registred = postgree_fetch(f'''SELECT telegram_id FROM "tgWebAppRender_company" WHERE telegram_id=''' + f"'{telegram_id}'")
+    elif typee == 'user':
+        registred = postgree_fetch(f'''SELECT telegram_id FROM "tgWebAppRender_userapp" WHERE telegram_id=''' + f"'{telegram_id}'")
     if not registred:
         return False
     else:

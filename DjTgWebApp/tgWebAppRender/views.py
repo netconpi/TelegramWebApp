@@ -22,7 +22,7 @@ def send_telegram(chat_id, message):
     res = results.json()
     return res
 
-def lk(request):
+def view_lk(request):
     tg_id = request.GET.get('tg_id')
     company = Company.objects.filter(telegram_id=tg_id)
     try:

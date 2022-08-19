@@ -13,17 +13,23 @@ AGREE = range(1)
 # Define a `/start` command handler.
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message with a button that opens a the web app."""
-    registred = db.postgree_fetch(f'''SELECT telegram_id FROM "tgWebAppRender_userapp" WHERE telegram_id=''' + f"'{update.message['chat']['id']}'")
-    if not registred:
+    # Update> need to checkup status'es
+    if not db.check(update.message['chat']['id'], 'user'):
         await update.message.reply_text(
             text.INVITE_TO_REGISTER,
             reply_markup=InlineKeyboardMarkup(key_markups.add_company),
         )
     else:
-        await update.message.reply_text(
-            text.START,
-            reply_markup=InlineKeyboardMarkup(key_markups.generate_start(update.message['chat']['id'])),
-        )
+        if not db.check(update.message['chat']['id']):
+            await update.message.reply_text(
+                text.START,
+                reply_markup=InlineKeyboardMarkup(key_markups.generate_start(update.message['chat']['id'])),
+            )
+        else:
+            await update.message.reply_text(
+                text.EXEC_START,
+                reply_markup=InlineKeyboardMarkup(key_markups.generate_start(update.message['chat']['id'])),
+            )
 
 
 #Define executior be process
@@ -59,7 +65,7 @@ async def exec_state(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 # Add event def 
 async def addevent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if db.check_company(update.message['chat']['id']):
+    if db.check(update.message['chat']['id']):
         await update.message.reply_text(
             text.EVENT, 
             reply_markup=InlineKeyboardMarkup(key_markups.add_event(update.message['chat']['id'])),
@@ -74,7 +80,7 @@ async def addevent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 # Edit event page (Calendar + View + Edit)
 async def events(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if db.check_company(update.message['chat']['id']):
+    if db.check(update.message['chat']['id']):
         await update.message.reply_text(
             text.EVENTS, 
             reply_markup=InlineKeyboardMarkup(key_markups.events(update.message['chat']['id'])),
