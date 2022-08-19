@@ -12,6 +12,8 @@ from .models import *
 import datetime
 
 
+# Working 
+
 def send_telegram(chat_id, message):
     token = settings.TG_TOKEN
     # chat_id = update.message.chat_id
@@ -20,6 +22,13 @@ def send_telegram(chat_id, message):
     res = results.json()
     return res
 
+def lk(request):
+    tg_id = request.GET.get('tg_id')
+    company = Company.objects.filter(telegram_id=tg_id)
+    try:
+        return render(request, 'tgWebAppRender/client-profile.html', context={'company': company[0]})
+    except Exception as e:
+        return render(request, 'tgWebAppRender/client-profile.html', context={'company': ''})
 
 def basic_registration(request):
     data = {
@@ -75,7 +84,6 @@ def basic_registration(request):
     else:
         return render(request, 'tgWebAppRender/user_registration.html', context={'error': 'Magestic'})
 
-
 class AddCompany(CreateView):
     model = Company
     fields = [
@@ -105,26 +113,6 @@ class AddCompany(CreateView):
         context = super().get_context_data(**kwargs)
         return context
         
-class LoginHome(View):
-    # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/login-home.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/login-home.html', context)
-
-class LoginIn(View):
-    # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/login-in.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/login-in.html', context)
-
 def calendartasklist(request):
     # main render logic 
     # Trash moment 
@@ -196,6 +184,90 @@ def create_event(request):
             else:
                 return render(request, 'tgWebAppRender/create_event.html', context={'warn': 1, 'tags': tags})
 
+def notifications(request):
+    # main render logic 
+    tg_id = request.GET.get('tg_id')
+    notifications = Notification.objects.filter(to_user=tg_id)
+    try:
+        return render(request, 'tgWebAppRender/notifications.html', context={'notifications': notifications})
+    except Exception as e:
+        return render(request, 'tgWebAppRender/notifications.html', context={'notifications': ''})
+
+class NotFound(View):
+    # main render logic 
+    def get(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/404.html', context) 
+    # logic if i will need update page for actions
+    def post(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/404.html', context)
+
+# Pending
+
+class ClientProfile(View):
+    # main render logic 
+    def get(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/client-profile.html', context) 
+    # logic if i will need update page for actions
+    def post(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/client-profile.html', context)
+
+class Components(View):
+    # main render logic 
+    def get(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/components.html', context) 
+    # logic if i will need update page for actions
+    def post(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/components.html', context)
+
+class LkSubscribed(View):
+    # main render logic 
+    def get(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/lk-subscribed.html', context) 
+    # logic if i will need update page for actions
+    def post(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/lk-subscribed.html', context)
+
+class SubscribeChoose(View):
+    # main render logic 
+    def get(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/subscribe-choose.html', context) 
+    # logic if i will need update page for actions
+    def post(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/subscribe-choose.html', context)
+
+
+# Not used
+
+class LoginHome(View):
+    # main render logic 
+    def get(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/login-home.html', context) 
+    # logic if i will need update page for actions
+    def post(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/login-home.html', context)
+
+class LoginIn(View):
+    # main render logic 
+    def get(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/login-in.html', context) 
+    # logic if i will need update page for actions
+    def post(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/login-in.html', context)
+
 class CardAdd(View):
     # main render logic 
     def get(self, request):
@@ -226,25 +298,7 @@ class ClientFreeTimes(View):
         context = {}
         return render(request, 'tgWebAppRender/client-free-times.html', context)
 
-class ClientProfile(View):
-    # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/client-profile.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/client-profile.html', context)
-
-class Components(View):
-    # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/components.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/components.html', context)
+# Technical 
 
 class index(View):
     # main render logic 
@@ -255,50 +309,3 @@ class index(View):
     def post(self, request):
         context = {}
         return render(request, 'tgWebAppRender/index.html', context)
-
-class LkSubscribed(View):
-    # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/lk-subscribed.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/lk-subscribed.html', context)
-
-def lk(request):
-    tg_id = request.GET.get('tg_id')
-    company = Company.objects.filter(telegram_id=tg_id)
-    try:
-        return render(request, 'tgWebAppRender/client-profile.html', context={'company': company[0]})
-    except Exception as e:
-        return render(request, 'tgWebAppRender/client-profile.html', context={'company': ''})
-
-def notifications(request):
-    # main render logic 
-    tg_id = request.GET.get('tg_id')
-    notifications = Notification.objects.filter(to_user=tg_id)
-    try:
-        return render(request, 'tgWebAppRender/notifications.html', context={'notifications': notifications})
-    except Exception as e:
-        return render(request, 'tgWebAppRender/notifications.html', context={'notifications': ''})
-
-class SubscribeChoose(View):
-    # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/subscribe-choose.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/subscribe-choose.html', context)
-
-class NotFound(View):
-    # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/404.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/404.html', context)
