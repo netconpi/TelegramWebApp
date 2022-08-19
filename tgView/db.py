@@ -61,3 +61,11 @@ def commit(req):
         return 1
     except sqlite3.OperationalError:
         return 0
+
+
+def check_company(telegram_id):
+    registred = postgree_fetch(f'''SELECT telegram_id FROM "tgWebAppRender_company" WHERE telegram_id=''' + f"'{telegram_id}'")
+    if not registred:
+        return False
+    else:
+        return True

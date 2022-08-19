@@ -9,7 +9,6 @@ import key_markups
 # BECOME_EXECUTOR STATES
 AGREE = range(1)
 
-
 # Define a `/start` command handler.
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message with a button that opens a the web app."""
@@ -60,20 +59,30 @@ async def exec_state(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 # Add event def 
 async def addevent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(
-        text.EVENT, 
-        reply_markup=InlineKeyboardMarkup(key_markups.add_event(update.message['chat']['id'])),
-    )
+    if db.check_company(update.message['chat']['id']):
+        await update.message.reply_text(
+            text.EVENT, 
+            reply_markup=InlineKeyboardMarkup(key_markups.add_event(update.message['chat']['id'])),
+        )
+    else:
+        await update.message.reply_text(
+            text.NOT_EXECUTOR, 
+        )
 
     # return ConversationHandler.END
 
 
 # Edit event page (Calendar + View + Edit)
 async def events(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(
-        text.EVENTS, 
-        reply_markup=InlineKeyboardMarkup(key_markups.events(update.message['chat']['id'])),
-    )
+    if db.check_company(update.message['chat']['id']):
+        await update.message.reply_text(
+            text.EVENTS, 
+            reply_markup=InlineKeyboardMarkup(key_markups.events(update.message['chat']['id'])),
+        )
+    else:
+        await update.message.reply_text(
+            text.NOT_EXECUTOR, 
+        )
 
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
