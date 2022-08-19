@@ -6,6 +6,7 @@ import db
 import text
 import key_markups
 
+# Not using, for ConversationHandler
 # BECOME_EXECUTOR STATES
 AGREE = range(1)
 
@@ -32,7 +33,6 @@ async def executor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         text.EXEC_INTRO,
         reply_markup=InlineKeyboardMarkup(key_markups.become_executor),
     )
-
 
 
 # continue executior confirm 
@@ -85,6 +85,7 @@ async def events(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
 
 
+# Not using, for ConversationHandler
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
     await update.message.reply_text(
