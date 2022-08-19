@@ -12,8 +12,12 @@ urlpatterns = [
     # Only registred user flow
     # LK
     path('lk-subscribed/', views.LkSubscribed.as_view(), name='lk-subscribed'),
-    path('lk/', views.view_lk, name='lk'),
+    # NOT WORKING
+    # path('lk/', views.view_lk, name='lk'),
     path('client-profile/', views.ClientProfile.as_view(), name='client-profile'),
+    path('profile/', views.view_lk, name='profile'),
+    path('executor/', views.executor_lk, name='exec_profile'),
+
     # Events pages
     path('calendar-task-list/', views.calendartasklist, name='calendar-task-list'),
     path('client-free-times/', views.ClientFreeTimes.as_view(), name='client-free-times'),

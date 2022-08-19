@@ -27,7 +27,23 @@ def generate_start(user_id):
         [
             InlineKeyboardButton(
                 text.LK_BTN, 
-                web_app=WebAppInfo(url=f"https://singup.ru/lk?tg_id={user_id}"),
+                web_app=WebAppInfo(url=f"https://singup.ru/profile?tg_id={user_id}"),
+            ),
+            InlineKeyboardButton(
+                text.NOTIFICATION_BTN, 
+                web_app=WebAppInfo(url=f"https://singup.ru/notifications?tg_id={user_id}"),
+            ),
+        ],
+    ]
+    return start
+
+
+def generate_start_executor(user_id):
+    start = [
+        [
+            InlineKeyboardButton(
+                text.LK_BTN, 
+                web_app=WebAppInfo(url=f"https://singup.ru/executor?tg_id={user_id}"),
             ),
             InlineKeyboardButton(
                 text.NOTIFICATION_BTN, 

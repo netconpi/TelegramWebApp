@@ -28,7 +28,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         else:
             await update.message.reply_text(
                 text.EXEC_START,
-                reply_markup=InlineKeyboardMarkup(key_markups.generate_start(update.message['chat']['id'])),
+                reply_markup=InlineKeyboardMarkup(key_markups.generate_start_executor(update.message['chat']['id'])),
             )
 
 

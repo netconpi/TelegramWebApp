@@ -24,11 +24,19 @@ def send_telegram(chat_id, message):
 
 def view_lk(request):
     tg_id = request.GET.get('tg_id')
+    userapp = UserApp.objects.filter(telegram_id=tg_id)
+    try:
+        return render(request, 'tgWebAppRender/client_self_lk.html', context={'company': userapp[0]})
+    except Exception as e:
+        return render(request, 'tgWebAppRender/client_self_lk.html', context={'company': ''})
+
+def executor_lk(request):
+    tg_id = request.GET.get('tg_id')
     company = Company.objects.filter(telegram_id=tg_id)
     try:
-        return render(request, 'tgWebAppRender/client-profile.html', context={'company': company[0]})
+        return render(request, 'tgWebAppRender/executor_lk.html', context={'company': company[0]})
     except Exception as e:
-        return render(request, 'tgWebAppRender/client-profile.html', context={'company': ''})
+        return render(request, 'tgWebAppRender/executor_lk.html', context={'company': ''})
 
 def basic_registration(request):
     data = {
