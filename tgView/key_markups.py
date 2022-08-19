@@ -50,6 +50,16 @@ def generate_start_executor(user_id):
                 web_app=WebAppInfo(url=f"https://singup.ru/notifications?tg_id={user_id}"),
             ),
         ],
+        [
+            InlineKeyboardButton(
+                text.EVENTS_BTN, 
+                web_app=WebAppInfo(url=f"https://singup.ru/calendar-task-list/?tg_id={user_id}"),
+            ),
+            InlineKeyboardButton(
+                text.EVENT_BTN, 
+                web_app=WebAppInfo(url=f"https://singup.ru/creat_ev?tg_id={user_id}"),
+            ),
+        ],
     ]
     return start
 
