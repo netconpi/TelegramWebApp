@@ -98,7 +98,7 @@ class AddCompany(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        send_telegram(form.cleaned_data['telegram_id'], f"Ваш аккаунт был создан! Поздравляем. Наименование аккаунта: {form.cleaned_data['name']}")
+        send_telegram(form.cleaned_data['telegram_id'], f"Мы получили данные: {form.cleaned_data['name']}, вы стали исполнителем!")
         return super(AddCompany, self).form_valid(form)
 
     def get_context_data(self, **kwargs):

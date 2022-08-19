@@ -31,10 +31,9 @@ async def executor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     print(update)
     await update.message.reply_text(
         text.EXEC_INTRO,
-        reply_markup=key_markups.agree_executor(),
+        reply_markup=InlineKeyboardMarkup(key_markups.become_executor),
     )
 
-    return AGREE
 
 
 # continue executior confirm 

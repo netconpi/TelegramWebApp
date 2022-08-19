@@ -12,6 +12,16 @@ add_company = [
 ]
 
 
+become_executor = [
+    [
+        InlineKeyboardButton(
+            text.EXEC_BTN, 
+            web_app=WebAppInfo(url="https://singup.ru/add_company/"),
+        ),
+    ],
+]
+
+
 def generate_start(user_id):
     start = [
         [
