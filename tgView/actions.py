@@ -34,11 +34,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 #Define executior be process
 async def executor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    print(update)
-    await update.message.reply_text(
-        text.EXEC_INTRO,
-        reply_markup=InlineKeyboardMarkup(key_markups.become_executor),
-    )
+    executor = db.check(update.message['chat']['id'])
+    if not executor:
+        await update.message.reply_text(
+            text.EXEC_INTRO,
+            reply_markup=InlineKeyboardMarkup(key_markups.become_executor),
+        )
+    else:
+        await update.message.reply_text(
+            text.ALREADY_EXECUTOR,
+        )
 
 
 # continue executior confirm 
