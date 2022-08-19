@@ -94,6 +94,14 @@ class Event(models.Model):
     event_date = models.DateTimeField(verbose_name="Date: ")
     tag = models.ForeignKey(Tag, on_delete=models.PROTECT, verbose_name="Tag id", null=True, blank=True)
 
+    @property
+    def give_name(self):
+        return self.tag.name
+
+    @property
+    def give_color(self):
+        return self.tag.color
+
     def __str__(self) -> str:
         return f"{self.company_link}"
 

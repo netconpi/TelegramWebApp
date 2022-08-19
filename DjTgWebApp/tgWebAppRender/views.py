@@ -211,6 +211,33 @@ class NotFound(View):
         context = {}
         return render(request, 'tgWebAppRender/404.html', context)
 
+def display_event(request):
+    print(request.method)
+
+    if request.method == "GET":
+
+        tg_id = request.GET.get('telegram_id')
+        event_id = request.GET.get('event_id')
+
+        information_event = Event.objects.get(id=event_id)
+        # inf_event_tag = Tag.objects.get(information_event.tag.id)
+        # information_company = Company.objects.get(telegram_id=tg_id)
+
+        # print(inf_event_tag)
+
+        event = {
+            'name': information_event.name,
+            'link_method': information_event.link_method,
+            'description': information_event.description,
+            'day': '',
+            'attending': 'Need parse data',
+            'category': information_event.tag,
+            'categoty_color': information_event.tag,
+        }
+        return render(request, 'tgWebAppRender/event_details.html', event)
+    else:
+        return render(request, 'tgWebAppRender/404.html', {})
+
 # Pending
 
 class ClientProfile(View):

@@ -18,6 +18,9 @@ urlpatterns = [
     path('profile/', views.view_lk, name='profile'),
     path('executor/', views.executor_lk, name='exec_profile'),
 
+    # Modal windows like page 
+    path('event_info/', views.display_event, name='event_display'),
+
     # Events pages
     path('calendar-task-list/', views.calendartasklist, name='calendar-task-list'),
     path('client-free-times/', views.ClientFreeTimes.as_view(), name='client-free-times'),
