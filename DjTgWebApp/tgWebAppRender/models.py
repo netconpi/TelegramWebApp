@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 class UserApp(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Назначено")
     telegram_id = models.CharField(max_length=255, verbose_name='Tg ID', null=True)
     name = models.CharField(max_length=255, verbose_name='Name', null=True)
     description = models.TextField(null=True, blank=True, verbose_name="Description")
@@ -89,7 +88,7 @@ class Event(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name="Description")
     link_method = models.TextField(null=True, blank=True, verbose_name="Link method")
     meet_timing = models.TextField(null=True, blank=True, verbose_name="Meet timing")
-    user_attached = models.ManyToManyField(Company, blank=True, symmetrical=False, related_name='attached')
+    user_attached = models.ManyToManyField(UserApp, blank=True, symmetrical=False, related_name='attached')
     category = models.TextField(null=True, blank=True, verbose_name="Cetegory")
     event_date = models.DateTimeField(verbose_name="Date: ")
     tag = models.ForeignKey(Tag, on_delete=models.PROTECT, verbose_name="Tag id", null=True, blank=True)

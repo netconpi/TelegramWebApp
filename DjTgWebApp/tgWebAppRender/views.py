@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.conf import settings
 import requests
+import datetime
 
 from .models import *
 import datetime
@@ -221,6 +222,17 @@ def display_event(request):
 
         information_event = Event.objects.get(id=event_id)
         print(information_event.tag.name)
+        date_list = information_event.meet_timing.split()
+        date_object = datetime.datetime.strptime(f'{date_list[0]} {date_list[1]}', '%d/%m/%Y %H:%M')
+        dates_name = {
+            'Monday': 'Понедельник',
+            'Tuesday': 'Вторник',
+            'Wednesday': 'Среда',
+            'Thursday': 'Четверг',
+            'Friday': 'Пятница',
+            'Saturday': 'Суббота',
+            'Sunday': 'Воскресенье',
+        }
 
         context = {
             'event': {
@@ -228,7 +240,7 @@ def display_event(request):
                 'name': information_event.name,
                 'link_method': information_event.link_method,
                 'descript': information_event.description,
-                'day': '',
+                'day': f"{dates_name[date_object.strftime('%A')]}, {date_list[1]}-{date_list[2]}",
                 'attending': 'Need parse data',
                 'category': information_event.tag.name,
                 'categoty_color': information_event.tag.color,
