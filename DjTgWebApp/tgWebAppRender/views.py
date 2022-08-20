@@ -220,21 +220,22 @@ def display_event(request):
         event_id = request.GET.get('event_id')
 
         information_event = Event.objects.get(id=event_id)
-        # inf_event_tag = Tag.objects.get(information_event.tag.id)
-        # information_company = Company.objects.get(telegram_id=tg_id)
+        print(information_event.tag.name)
 
-        # print(inf_event_tag)
-
-        event = {
-            'name': information_event.name,
-            'link_method': information_event.link_method,
-            'description': information_event.description,
-            'day': '',
-            'attending': 'Need parse data',
-            'category': information_event.tag,
-            'categoty_color': information_event.tag,
+        context = {
+            'event': {
+                'telegram_id': tg_id,
+                'name': information_event.name,
+                'link_method': information_event.link_method,
+                'descript': information_event.description,
+                'day': '',
+                'attending': 'Need parse data',
+                'category': information_event.tag.name,
+                'categoty_color': information_event.tag.color,
+            },
         }
-        return render(request, 'tgWebAppRender/event_details.html', event)
+
+        return render(request, 'tgWebAppRender/event_details.html', context)
     else:
         return render(request, 'tgWebAppRender/404.html', {})
 
