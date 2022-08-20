@@ -91,7 +91,7 @@ def basic_registration(request):
             return render(request, 'tgWebAppRender/user_registration.html', context=r_context)
 
     else:
-        return render(request, 'tgWebAppRender/user_registration.html', context={'error': 'Magestic'})
+        return render(request, 'tgWebAppRender/user_registration.html', context={'error': 'Обратите внимание на то, что все поля являются обязательными'})
 
 class AddCompany(CreateView):
     model = Company
@@ -215,13 +215,12 @@ class NotFound(View):
 def display_event(request):
     print(request.method)
 
-    if request.method == "GET":
+    if request.method == 'GET':
 
         tg_id = request.GET.get('telegram_id')
         event_id = request.GET.get('event_id')
 
         information_event = Event.objects.get(id=event_id)
-        print(information_event.tag.name)
         date_list = information_event.meet_timing.split()
         date_object = datetime.datetime.strptime(f'{date_list[0]} {date_list[1]}', '%d/%m/%Y %H:%M')
         dates_name = {
@@ -234,6 +233,30 @@ def display_event(request):
             'Sunday': 'Воскресенье',
         }
 
+        # Maybe None, just need to check it 
+        try:
+            tag_name = information_event.tag.name
+            tag_color = information_event.tag.color
+        except Exception as e:
+            tag_name = 'Не установлена'
+            tag_color = 'grey'
+
+        # User attending generation
+        output_users_list = 'Произошла ошибка во время выполнения запроса '
+        try:
+            users_list = information_event.user_attached.all()
+            user_len = len(users_list)
+            output_users_list = ''
+
+            for i in range(user_len):
+                if user_len-1 != i:
+                    output_users_list += f'{users_list[i].name}, '
+                else:
+                    output_users_list += f'{users_list[i].name}'
+
+        except Exception as e:
+            pass
+
         context = {
             'event': {
                 'telegram_id': tg_id,
@@ -241,9 +264,9 @@ def display_event(request):
                 'link_method': information_event.link_method,
                 'descript': information_event.description,
                 'day': f"{dates_name[date_object.strftime('%A')]}, {date_list[1]}-{date_list[2]}",
-                'attending': 'Need parse data',
-                'category': information_event.tag.name,
-                'categoty_color': information_event.tag.color,
+                'attending': output_users_list,
+                'category': tag_name,
+                'categoty_color': tag_color,
             },
         }
 
