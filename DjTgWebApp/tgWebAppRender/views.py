@@ -140,6 +140,16 @@ def create_event(request):
     if request.method == "POST":
         return render(request, 'tgWebAppRender/404.html', context={'notificat': request})
     else:
+
+        action = request.GET.get('action')
+        if action: 
+            if action == "edit":
+                pass
+
+            if action == "remove":
+                pass
+
+
         tg_id = request.GET.get('tg_id')
         # Form custom validation
         data = {
