@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Вход / Регистрация</title>
+	<meta name="theme-color" content>
+	<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="msapplication-tap-highlight" content="no">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="MobileOptimized" content="320">
+	<meta name="HandheldFriendly" content="True">
+	{% load static %}
+	<!-- <link href="js/plugins/choices/choices.min.css?v=2db7972b71d7b4ea7983ce5f" rel="stylesheet">
+	<link href="js/plugins/datepicker/datepicker.min.css?v=089c0eebac646d9182e95e8e" rel="stylesheet">
+	<link href="css/app.min.css?v=354729c471e202bf3ef67654" rel="stylesheet"> -->
+	<link href="{% static 'tgWebAppRender/js/plugins/choices/choices.min.css' %}" rel="stylesheet">
+	<link href="{% static 'tgWebAppRender/js/plugins/datepicker/datepicker.min.css' %}" rel="stylesheet">
+	<link href="{% static 'tgWebAppRender/css/app.min.css' %}" rel="stylesheet">
+	<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+
+<body class="app login-intro">
+	<div class="app__content">
+		<main class="app__main">
+			<div class="login-window">
+				<a class="logo-signup" href="{% url 'login-home' %}">
+					<img class="logo-signup__img" src="{% static 'tgWebAppRender/files/signupchat.svg' %}" alt>
+				</a><!-- logo-signup -->
+				<div class="login-home">
+					<h1 class="login-home-title">Авторизация</h1>
+					<p class="login-home-description">Давайте пройдем авторизацию в боте.<br>
+			Мы не нашли аккаунт, связанный с Вашим Telegram. Пройдем регестрацию</p>
+				</div>
+				<div class="login-buttons">
+					<div class="login-buttons__btn" style="visibility: hidden;">
+						<a class="btn btn--outline btn--wide" href="{% url 'login-in' %}">Войти</a>
+					</div>
+					<div class="login-buttons__btn">
+						<a class="btn btn--wide" href="{% url 'add-company' %}">Зарагестрироваться</a>
+					</div>
+				</div>
+			</div>
+		</main><!-- app:main -->
+	</div><!-- app:content -->
+	<div id="add-task-window" class="slide-window">
+		<div class="slide-window__body container">
+			<div class="slide-window__title">Добавить новую встречу</div>
+			<div class="slide-window__content">
+				<form class="form">
+					<div class="row">
+						<div class="mb-1 col col-12">
+							<input class="form-control" name type="text" placeholder="Название встречи">
+						</div>
+						<div class="mb-1 col col-12">
+							<textarea class="form-control" name="company_description" placeholder="Описание"></textarea>
+						</div>
+						<div class="mb-1 col col-12">
+							<div class="date-control">
+								<input class="form-control" type="text" placeholder="Дата">
+							</div>
+						</div>
+						<div class="mb-1 col col-6">
+							<select class="form-control time-choices" name="time_start">
+								<option value="">Начало</option>
+								<option value="00:00">00:00</option>
+								<option value="00:30">00:30</option>
+								<option value="01:00">01:00</option>
+								<option value="01:30">01:30</option>
+								<option value="02:00">02:00</option>
+								<option value="02:30">02:30</option>
+								<option value="03:00">03:00</option>
+								<option value="03:30">03:30</option>
+								<option value="04:00">04:00</option>
+								<option value="04:30">04:30</option>
+								<option value="05:00">05:00</option>
+								<option value="05:30">05:30</option>
+								<option value="06:00">06:00</option>
+								<option value="06:30">06:30</option>
+								<option value="07:00">07:00</option>
+								<option value="07:30">07:30</option>
+								<option value="08:00">08:00</option>
+								<option value="08:30">08:30</option>
+								<option value="09:00">09:00</option>
+								<option value="09:30">09:30</option>
+								<option value="10:00">10:00</option>
+								<option value="10:30">10:30</option>
+								<option value="11:00">11:00</option>
+								<option value="11:30">11:30</option>
+								<option value="12:00">12:00</option>
+								<option value="12:30">12:30</option>
+								<option value="13:00">13:00</option>
+								<option value="13:30">13:30</option>
+								<option value="14:00">14:00</option>
+								<option value="14:30">14:30</option>
+								<option value="15:00">15:00</option>
+								<option value="15:30">15:30</option>
+								<option value="16:00">16:00</option>
+								<option value="16:30">16:30</option>
+								<option value="17:00">17:00</option>
+								<option value="17:30">17:30</option>
+								<option value="18:00">18:00</option>
+								<option value="18:30">18:30</option>
+								<option value="19:00">19:00</option>
+								<option value="19:30">19:30</option>
+								<option value="20:00">20:00</option>
+								<option value="20:30">20:30</option>
+								<option value="21:00">21:00</option>
+								<option value="21:30">21:30</option>
+								<option value="22:00">22:00</option>
+								<option value="22:30">22:30</option>
+								<option value="23:00">23:00</option>
+								<option value="23:30">23:30</option>
+							</select>
+						</div>
+						<div class="mb-1 col col-6">
+							<select class="form-control time-choices" name="time_end">
+								<option value="">Конец</option>
+								<option value="00:00">00:00</option>
+								<option value="00:30">00:30</option>
+								<option value="01:00">01:00</option>
+								<option value="01:30">01:30</option>
+								<option value="02:00">02:00</option>
+								<option value="02:30">02:30</option>
+								<option value="03:00">03:00</option>
+								<option value="03:30">03:30</option>
+								<option value="04:00">04:00</option>
+								<option value="04:30">04:30</option>
+								<option value="05:00">05:00</option>
+								<option value="05:30">05:30</option>
+								<option value="06:00">06:00</option>
+								<option value="06:30">06:30</option>
+								<option value="07:00">07:00</option>
+								<option value="07:30">07:30</option>
+								<option value="08:00">08:00</option>
+								<option value="08:30">08:30</option>
+								<option value="09:00">09:00</option>
+								<option value="09:30">09:30</option>
+								<option value="10:00">10:00</option>
+								<option value="10:30">10:30</option>
+								<option value="11:00">11:00</option>
+								<option value="11:30">11:30</option>
+								<option value="12:00">12:00</option>
+								<option value="12:30">12:30</option>
+								<option value="13:00">13:00</option>
+								<option value="13:30">13:30</option>
+								<option value="14:00">14:00</option>
+								<option value="14:30">14:30</option>
+								<option value="15:00">15:00</option>
+								<option value="15:30">15:30</option>
+								<option value="16:00">16:00</option>
+								<option value="16:30">16:30</option>
+								<option value="17:00">17:00</option>
+								<option value="17:30">17:30</option>
+								<option value="18:00">18:00</option>
+								<option value="18:30">18:30</option>
+								<option value="19:00">19:00</option>
+								<option value="19:30">19:30</option>
+								<option value="20:00">20:00</option>
+								<option value="20:30">20:30</option>
+								<option value="21:00">21:00</option>
+								<option value="21:30">21:30</option>
+								<option value="22:00">22:00</option>
+								<option value="22:30">22:30</option>
+								<option value="23:00">23:00</option>
+								<option value="23:30">23:30</option>
+							</select>
+						</div>
+					</div>
+					<div class="switch mb-1">
+						<span class="switch__label">Напомнить</span>
+						<input class="switch__ctrl" type="checkbox">
+						<span class="switch__slide"></span>
+					</div>
+					<div class="category-selector mb-1">
+						<label class="form-label mb-1">Выберите категорию</label>
+						<div class="tag-list tag-list--lg">
+							<div class="tag-list__item">
+								<div class="tag-mark tag-mark--violet">
+									<span class="tag-mark__label">Brainstorm</span>
+									<span class="tag-mark__mark"></span>
+									<span class="tag-mark__plate"></span>
+								</div>
+							</div>
+							<div class="tag-list__item">
+								<div class="tag-mark tag-mark--green">
+									<span class="tag-mark__label">Design</span>
+									<span class="tag-mark__mark"></span>
+									<span class="tag-mark__plate"></span>
+								</div>
+							</div>
+							<div class="tag-list__item">
+								<div class="tag-mark tag-mark--blue">
+									<span class="tag-mark__label">Workout</span>
+									<span class="tag-mark__mark"></span>
+									<span class="tag-mark__plate"></span>
+								</div>
+							</div>
+						</div><!-- tag-list -->
+						<button class="btn-link" type="button">+ Добавить новую</button>
+					</div>
+					<div class="form__footer">
+						<button class="btn btn--wide" type="submit">Создать встречу</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div><!-- slide-window -->
+	<div id="view-task-window" class="slide-window">
+		<div class="slide-window__body container">
+			<div class="slide-window__title">Brainstorm with the team</div>
+			<div class="slide-window__content">
+				<div class="item-info mb-2">
+					<div class="form-label">Способ связи</div>
+					<div class="item-info__content">
+						<a href="#">https://zoom.us</a>
+					</div>
+				</div>
+				<div class="item-info mb-2">
+					<div class="form-label">Описание</div>
+					<div class="item-info__content"> Define the problem or question that the brainstorming session will aim to address. The question should be clear and concise. </div>
+				</div>
+				<div class="item-info mb-2">
+					<div class="item-info-times">
+						<div class="item-info-times__date">Четверг, 2 сентября</div>
+						<div class="item-info-times__time">10:00 - 13:00</div>
+					</div>
+				</div>
+				<div class="item-info mb-2">
+					<div class="form-label">Участники</div>
+					<div class="item-info__content">
+						<div> Коуч Елена Смирнова @DmitryFyrfa </div>
+					</div>
+				</div>
+				<div class="item-categories">
+					<div class="form-label">Категория</div>
+					<div class="tag-list tag-list--lg">
+						<div class="tag-list__item">
+							<div class="tag-mark tag-mark--blue">
+								<span class="tag-mark__label">Workout</span>
+								<span class="tag-mark__mark"></span>
+								<span class="tag-mark__plate"></span>
+							</div>
+						</div>
+					</div><!-- tag-list -->
+				</div>
+				<div class="btns-group mt-2">
+					<button class="btn btn--wide" type="submit">Изменить встречу</button>
+					<button class="btn btn--secondary btn--wide" type="submit">Отменить встречу</button>
+				</div>
+			</div>
+		</div>
+	</div><!-- slide-window -->
+	<svg class="main-svg-sprite main-svg-sprite--icons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><symbol id="action-add" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18.77 9.25h-8.02V1.23a.75.75 0 10-1.5 0v8.02H1.23a.75.75 0 000 1.5h8.02v8.02a.75.75 0 101.5 0v-8.02h8.02a.75.75 0 100-1.5z"></path><path d="M8.77 1.23a1.23 1.23 0 012.46 0v7.54h7.54a1.23 1.23 0 110 2.46h-7.54v7.54a1.23 1.23 0 01-2.46 0v-7.54H1.23a1.23 1.23 0 010-2.46h7.54V1.23zM10 .95a.28.28 0 00-.28.28v8.5h-8.5a.28.28 0 100 .55h8.5v8.5a.28.28 0 10.56 0v-8.5h8.5a.28.28 0 100-.56h-8.5v-8.5A.28.28 0 0010 .96z" clip-rule="evenodd"></path></symbol><symbol id="action-calendar" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M1 4.8a3 3 0 013-3h12a3 3 0 013 3V17a3 3 0 01-3 3H4a3 3 0 01-3-3V4.8zm3-1a1 1 0 00-1 1V17a1 1 0 001 1h12a1 1 0 001-1V4.8a1 1 0 00-1-1H4z" clip-rule="evenodd"></path><path d="M13.56 0a1 1 0 011 1v3.6a1 1 0 11-2 0V1a1 1 0 011-1zM6.44 0a1 1 0 011 1v3.6a1 1 0 11-2 0V1a1 1 0 011-1zM1 8.2a1 1 0 011-1h16a1 1 0 110 2H2a1 1 0 01-1-1z" clip-rule="evenodd"></path></symbol><symbol id="arrow-left" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#ca)"><path d="M7.96 11.92c0-.25.1-.5.3-.69l6.05-5.95a1 1 0 011.4 0c.39.38.39 1 0 1.37l-5.36 5.27 5.36 5.26c.39.38.39 1 0 1.37a1 1 0 01-1.4 0L8.25 12.6a.96.96 0 01-.29-.68z"></path></g><defs><clipPath id="ca"><path d="M0 0h14v8H0z" transform="rotate(90 5.5 10.5)"></path></clipPath></defs></symbol><symbol id="arrow-right" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.04 12.08c0 .25-.1.5-.3.69l-6.05 5.95a1 1 0 01-1.4 0 .95.95 0 010-1.37l5.36-5.27-5.36-5.26a.95.95 0 010-1.37 1 1 0 011.4 0l6.06 5.95a.96.96 0 01.29.68z"></path></symbol><symbol id="btn-arrow-right" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#ea)"><path d="M11.04 7.08c0 .25-.1.5-.3.69L4.7 13.72a1 1 0 01-1.4 0 .96.96 0 010-1.37l5.36-5.27L3.3 1.82a.96.96 0 010-1.37 1 1 0 011.4 0l6.06 5.95c.2.18.29.43.29.68z"></path></g><defs><clipPath id="ea"><path d="M0 0h14v8H0z" transform="rotate(-90 8.5 5.5)"></path></clipPath></defs></symbol><symbol id="btn-more" viewBox="0 0 21 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 9.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path></symbol><symbol id="btn-send-calendar" viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg"><path d="M4.36 3.7l1.49-1.49v6.24a.65.65 0 101.3 0V2.2l1.49 1.5a.65.65 0 001.06-.2.65.65 0 00-.14-.71L6.96.19a.65.65 0 00-.21-.14.65.65 0 00-.5 0 .65.65 0 00-.21.14l-2.6 2.6a.65.65 0 00.92.92zm7.99 4.1a.65.65 0 00-.65.65v2.6a.65.65 0 01-.65.65h-9.1a.65.65 0 01-.65-.65v-2.6a.65.65 0 10-1.3 0v2.6A1.95 1.95 0 001.95 13h9.1A1.95 1.95 0 0013 11.05v-2.6a.65.65 0 00-.65-.65z"></path></symbol><symbol id="calendar" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6.8a3 3 0 013-3h12a3 3 0 013 3V19a3 3 0 01-3 3H6a3 3 0 01-3-3V6.8zm3-1a1 1 0 00-1 1V19a1 1 0 001 1h12a1 1 0 001-1V6.8a1 1 0 00-1-1H6z" clip-rule="evenodd"></path><path d="M15.56 2a1 1 0 011 1v3.6a1 1 0 11-2 0V3a1 1 0 011-1zM8.44 2a1 1 0 011 1v3.6a1 1 0 01-2 0V3a1 1 0 011-1zM3 10.2a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></symbol><symbol id="clock" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4a8 8 0 100 16 8 8 0 000-16zM2 12a10 10 0 1120 0 10 10 0 01-20 0z" clip-rule="evenodd"></path><path d="M12 5.6a1 1 0 011 1v4.78l3.05 1.53a1 1 0 01-.9 1.78l-3.6-1.8A1 1 0 0111 12V6.6a1 1 0 011-1z" clip-rule="evenodd"></path></symbol><symbol id="notty" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.67 8.4C5.67 4.88 8.49 2 12 2c3.5 0 6.33 2.88 6.33 6.4 0 3 .64 4.86 1.22 5.94a5.24 5.24 0 001.02 1.34A1 1 0 0120 17.5H4a1 1 0 01-.57-1.82l.04-.03c.04-.04.12-.1.22-.21.19-.21.47-.56.76-1.1.58-1.08 1.22-2.94 1.22-5.94zm12.24 7.1a8.72 8.72 0 01-.12-.21c-.76-1.4-1.46-3.6-1.46-6.89C16.33 5.96 14.38 4 12 4a4.37 4.37 0 00-4.33 4.4c0 3.3-.7 5.49-1.46 6.89l-.11.21h11.8zm-7.95 3.73a1 1 0 011.37.37c.14.25.4.4.67.4s.53-.15.67-.4a1 1 0 011.74 1 2.77 2.77 0 01-4.82 0 1 1 0 01.37-1.37z" clip-rule="evenodd"></path></symbol><symbol id="settings" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4a1 1 0 00-1 1 1.9 1.9 0 01-3.24 1.34 1 1 0 10-1.42 1.42A1.9 1.9 0 015 11a1 1 0 100 2 1.9 1.9 0 011.34 3.24 1 1 0 001.42 1.42A1.9 1.9 0 0111 19a1 1 0 102 0 1.9 1.9 0 013.24-1.34 1 1 0 101.42-1.42A1.9 1.9 0 0119 13a1 1 0 100-2 1.9 1.9 0 01-1.34-3.24 1 1 0 00-1.42-1.42A1.9 1.9 0 0113 5a1 1 0 00-1-1zm-3 .78a3 3 0 016 0A3 3 0 0119.21 9a3 3 0 010 5.98A3 3 0 0115 19.22a3 3 0 01-5.98 0A3 3 0 014.78 15a3 3 0 010-5.98A3 3 0 019 4.78z"></path><path d="M12 10a2 2 0 100 4 2 2 0 000-4zm-2.83-.83a4 4 0 115.66 5.66 4 4 0 01-5.66-5.66z"></path></symbol><symbol id="user" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#la)"><path d="M20.94 18.4a.7.7 0 00-1.38.3c.05.21 0 .44-.15.61a.71.71 0 01-.56.27H5.13a.73.73 0 01-.71-.88 7.76 7.76 0 017.76-6.15 7.73 7.73 0 016.24 3.43.7.7 0 001.17-.78 9.14 9.14 0 00-4.74-3.6 4.77 4.77 0 10-5.72 0 9.13 9.13 0 00-6.08 6.8 2.13 2.13 0 002.08 2.58h13.72a2.12 2.12 0 002.09-2.57zM8.62 7.79a3.38 3.38 0 116.75 0 3.38 3.38 0 01-6.75 0z" clip-rule="evenodd"></path></g><defs><clipPath id="la"><path d="M0 0h17.98v17.98H0z" transform="translate(3 3)"></path></clipPath></defs></symbol></svg>
+	<script>
+		const appSetup = {
+			base: 'tg.bot.webapp.calendar',
+		};
+		const appUri = location.hostname === 'localhost' ? 'http://localhost:8967' : `https://dev.solvers.group/${appSetup.base}`;
+		const appData = {
+			uri: appUri,
+		}
+		const apiUrls = {
+			availabilities: `${appUri}/api/availabilities.json`,
+		}
+	</script>
+	<script src="{% static 'tgWebAppRender/js/plugins/choices/choices.min.js' %}" defer></script>
+	<script src="{% static 'tgWebAppRender/js/plugins/datepicker/datepicker.min.js' %}" defer></script>
+	<script src="{% static 'tgWebAppRender/js/app.min.js' %}" defer></script>
+</body><!-- app -->
+
+</html>

@@ -137,19 +137,19 @@ def calendartasklist(request):
 
 def create_event(request):
 
+    '''
+    action = request.GET.get('action')
+    print(request.GET)
+    if action: 
+        if action == "edit":
+            print('called edit action')
+        if action == "remove":
+            print('called remove action')
+    '''
+
     if request.method == "POST":
         return render(request, 'tgWebAppRender/404.html', context={'notificat': request})
     else:
-
-        action = request.GET.get('action')
-        if action: 
-            if action == "edit":
-                pass
-
-            if action == "remove":
-                pass
-
-
         tg_id = request.GET.get('tg_id')
         # Form custom validation
         data = {
@@ -269,6 +269,7 @@ def display_event(request):
 
         context = {
             'event': {
+                'event_id': event_id,
                 'telegram_id': tg_id,
                 'name': information_event.name,
                 'link_method': information_event.link_method,

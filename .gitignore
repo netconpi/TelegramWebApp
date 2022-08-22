@@ -3,7 +3,6 @@
 /DjTgWebApp/static
 /DjTgWebApp/tgWebAppRender/__pycache__
 /DjTgWebApp/tgWebAppRender/static
-/DjTgWebApp/tgWebAppRender/templates
 /DjTgWebApp/DjTgWebApp/settings.py
 /DjTgWebApp/DjTgWebApp/gunicorn_config.py
 /DjTgWebApp/DjTgWebApp/__pycache__
