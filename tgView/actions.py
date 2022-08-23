@@ -111,6 +111,7 @@ async def shared(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if db.check(update.message['chat']['id'], 'user'):
         await update.message.reply_text(
             text.APPOINT_START, 
+            reply_markup=InlineKeyboardMarkup(key_markups.shared_list(update.message['chat']['id']))
         )
     else:
         await update.message.reply_text(

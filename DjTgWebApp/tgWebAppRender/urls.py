@@ -31,7 +31,7 @@ urlpatterns = [
     path('subscribe-choose/', views.SubscribeChoose.as_view(), name='subscribe-choose'),
     # Notifications
     path('notifications/', views.notifications, name='notifications'),
-    path('shared/', views.shared_list, name='shared')
+    path('shared/', views.shared_list, name='shared'),
 
     # Unused
     path('components/', views.Components.as_view(), name='components'),
