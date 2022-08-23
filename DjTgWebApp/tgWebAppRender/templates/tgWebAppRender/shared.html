@@ -31,7 +31,7 @@
 			<!-- Notification's PART -->
 			{% for calendar in shared %}
 
-				<div class="notify notify--planned">
+				<div class="notify notify--planned" onclick="location.href = 'https://singup.ru/lk_shared?user_id={{ calendar.shared_with.telegram_id}}&owner_id={{ calendar.celandar_owner.telegram_id}}&action=remove';">
 					<div class="notify__head">
 						<span class="notify__title">{{ calendar.celandar_owner.name }}</span> 
 					</div>

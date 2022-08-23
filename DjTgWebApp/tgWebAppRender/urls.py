@@ -17,6 +17,7 @@ urlpatterns = [
     path('client-profile/', views.ClientProfile.as_view(), name='client-profile'),
     path('profile/', views.view_lk, name='profile'),
     path('executor/', views.executor_lk, name='exec_profile'),
+    path('lk_shared/', views.lk_shared, name='lk_shared'), 
 
     # Modal windows like page 
     path('event_info/', views.display_event, name='event_display'),

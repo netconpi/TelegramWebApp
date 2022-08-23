@@ -40,108 +40,28 @@
 				<div class="user-profile__data">
 					<div class="mb-1">
 						<div class="form-label">Ближайшие свободные даты</div>
-						<div class="event-snippet event-snippet--transparent">
-							<button class="btn-more" type="button">
-								<span class="svg-icon svg-icon--btn-more btn__icon" aria-hidden="true">
-									<svg class="svg-icon__link">
-										<use xlink:href="#btn-more"></use>
-									</svg>
-								</span>
-							</button>
-							<div class="event-snippet__time"><span class="task-point task-point--green"></span> Понедельник</div>
-							<div class="tag-list">
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">12:00 - 13:00</span>
+						{% for days in day %}
+							<div class="event-snippet event-snippet--transparent">
+								<button class="btn-more" type="button">
+									<span class="svg-icon svg-icon--btn-more btn__icon" aria-hidden="true">
+										<svg class="svg-icon__link">
+											<use xlink:href="#btn-more"></use>
+										</svg>
+									</span>
+								</button>
+								<div class="event-snippet__time"><span class="task-point task-point--green"></span> {{ days }}</div>
+								<div class="tag-list">
+									{% for time in free %}
+									<div class="tag-list__item">
+										<div class="tag">
+											<input class="tag__ctrl" name="times[]" type="radio">
+											<span class="tag__name">{{time}}</span>
+										</div>
 									</div>
+									{% endfor %}
 								</div>
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">14:00 - 15:00</span>
-									</div>
-								</div>
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">16:00 - 17:00</span>
-									</div>
-								</div>
-							</div>
-						</div><!-- event-snippet -->
-						<div class="event-snippet event-snippet--transparent">
-							<button class="btn-more" type="button">
-								<span class="svg-icon svg-icon--btn-more btn__icon" aria-hidden="true">
-									<svg class="svg-icon__link">
-										<use xlink:href="#btn-more"></use>
-									</svg>
-								</span>
-							</button>
-							<div class="event-snippet__time"><span class="task-point task-point--green"></span> Вторник</div>
-							<div class="tag-list">
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">12:00 - 13:00</span>
-									</div>
-								</div>
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">14:00 - 15:00</span>
-									</div>
-								</div>
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">16:00 - 17:00</span>
-									</div>
-								</div>
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">16:00 - 17:00</span>
-									</div>
-								</div>
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">16:00 - 17:00</span>
-									</div>
-								</div>
-							</div>
-						</div><!-- event-snippet -->
-						<div class="event-snippet event-snippet--transparent">
-							<button class="btn-more" type="button">
-								<span class="svg-icon svg-icon--btn-more btn__icon" aria-hidden="true">
-									<svg class="svg-icon__link">
-										<use xlink:href="#btn-more"></use>
-									</svg>
-								</span>
-							</button>
-							<div class="event-snippet__time"><span class="task-point task-point--green"></span> Четверг</div>
-							<div class="tag-list">
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">12:00 - 13:00</span>
-									</div>
-								</div>
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">14:00 - 15:00</span>
-									</div>
-								</div>
-								<div class="tag-list__item">
-									<div class="tag">
-										<input class="tag__ctrl" name="times[]" type="radio">
-										<span class="tag__name">16:00 - 17:00</span>
-									</div>
-								</div>
-							</div>
-						</div><!-- event-snippet -->
+							</div><!-- event-snippet -->
+						{% endfor %}
 					</div>
 				</div>
 			</div>

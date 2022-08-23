@@ -317,6 +317,52 @@ def shared_list(request):
     except Exception as e:
         return render(request, 'tgWebAppRender/shared.html', context={'shared': ''})
 
+def lk_shared(request):
+    user_id = request.GET.get('user_id')
+    owner_id = request.GET.get('owner_id')
+    company = Company.objects.filter(telegram_id=owner_id)
+    print(company[0].name)
+
+    # company_events = Event.objects.filter(company_link=company)
+    availability = []
+
+    now_time = datetime.datetime.now()
+    time_step = company[0].duration[:2]
+
+    time_now_toproceed = datetime.datetime.strptime(now_time.strftime('%H:%M'), '%H:%M')
+
+    work_time_start = datetime.datetime.strptime(company[0].meet_timing, '%H:%M')
+    work_time_end = datetime.datetime.strptime(company[0].meet_timing_end, '%H:%M')
+
+    dates_name = {
+        'Monday': 'Понедельник',
+        'Tuesday': 'Вторник',
+        'Wednesday': 'Среда',
+        'Thursday': 'Четверг',
+        'Friday': 'Пятница',
+        'Saturday': 'Суббота',
+        'Sunday': 'Воскресенье',
+    }
+
+    day = [dates_name[now_time.strftime('%A')]]
+
+    while work_time_start < work_time_end:
+        previous = work_time_start.strftime('%H:%M')
+        work_time_start += datetime.timedelta(minutes=int(time_step))
+        nexx = work_time_start.strftime('%H:%M')
+
+        if work_time_start > time_now_toproceed:
+            # have_event = Event.objects.filter(company_link=company)
+            availability.append(f"{previous} - {nexx}")
+
+
+    context_local = {'company': company[0], 'free': availability, 'day': day}
+
+    try:
+        return render(request, 'tgWebAppRender/client-profile.html', context=context_local)
+    except Exception as e:
+        return render(request, 'tgWebAppRender/client-profile.html', context={'company': ''})
+
 # Pending
 
 class ClientProfile(View):
