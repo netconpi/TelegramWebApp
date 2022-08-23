@@ -320,16 +320,6 @@ class ClientProfile(View):
         context = {}
         return render(request, 'tgWebAppRender/client-profile.html', context)
 
-class Components(View):
-    # main render logic 
-    def get(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/components.html', context) 
-    # logic if i will need update page for actions
-    def post(self, request):
-        context = {}
-        return render(request, 'tgWebAppRender/components.html', context)
-
 class LkSubscribed(View):
     # main render logic 
     def get(self, request):
@@ -414,3 +404,13 @@ class index(View):
     def post(self, request):
         context = {}
         return render(request, 'tgWebAppRender/index.html', context)
+
+class Components(View):
+    # main render logic 
+    def get(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/components.html', context) 
+    # logic if i will need update page for actions
+    def post(self, request):
+        context = {}
+        return render(request, 'tgWebAppRender/components.html', context)
