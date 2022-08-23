@@ -326,7 +326,7 @@ def lk_shared(request):
     # company_events = Event.objects.filter(company_link=company)
     availability = []
 
-    now_time = datetime.datetime.now()
+    now_time = datetime.datetime.now() + datetime.timedelta(hours=3)
     time_step = company[0].duration[:2]
 
     time_now_toproceed = datetime.datetime.strptime(now_time.strftime('%H:%M'), '%H:%M')
@@ -347,13 +347,30 @@ def lk_shared(request):
     day = [dates_name[now_time.strftime('%A')]]
 
     while work_time_start < work_time_end:
-        previous = work_time_start.strftime('%H:%M')
+        previous = work_time_start
         work_time_start += datetime.timedelta(minutes=int(time_step))
-        nexx = work_time_start.strftime('%H:%M')
+        nexx = work_time_start
 
         if work_time_start > time_now_toproceed:
-            # have_event = Event.objects.filter(company_link=company)
-            availability.append(f"{previous} - {nexx}")
+            have_event = Event.objects.filter(
+                company_link=company[0],
+                event_date__year=now_time.strftime('%Y'),
+                event_date__month=now_time.strftime('%m'),
+                event_date__day=now_time.strftime('%d'),
+            )
+
+            if have_event:
+                for event in have_event:
+                    event_time_start_obj = datetime.datetime.strptime(event.time_start, '%H:%M') 
+                    event_time_end_obj = datetime.datetime.strptime(event.time_end, '%H:%M') 
+
+                    if event.give_year == now_time.strftime('%d/%m/%Y'):
+                        if event_time_start_obj <= previous and event_time_end_obj >= nexx:
+                            pass
+                        else:
+                            availability.append(f"{previous.strftime('%H:%M')} - {nexx.strftime('%H:%M')}")
+            else:
+                availability.append(f"{previous.strftime('%H:%M')} - {nexx.strftime('%H:%M')}")
 
 
     context_local = {'company': company[0], 'free': availability, 'day': day}

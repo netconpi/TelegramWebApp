@@ -154,7 +154,7 @@ class Event(models.Model):
 
     @property
     def generate_times(self):
-        step = 15
+        step = 30
         dt = datetime.datetime.strptime('00:00', '%H:%M')
 
         dt += datetime.timedelta(minutes=step)
