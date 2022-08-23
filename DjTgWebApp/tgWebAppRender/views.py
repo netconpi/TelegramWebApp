@@ -152,6 +152,8 @@ def create_event(request):
     else:
         tg_id = request.GET.get('tg_id')
         action = request.GET.get('action')
+        edit_mode = request.GET.get('edit_mode')
+        event_id = request.GET.get('event_id')
         # Form custom validation
         data = {
             'telegram_id': request.GET.get('telegram_id'),
@@ -190,7 +192,7 @@ def create_event(request):
                 else:
                     tag_object = None
 
-                if not action:
+                if not edit_mode:
                     event = Event(
                         company_link = Company.objects.get(telegram_id=data['telegram_id']),
                         created_by = data['telegram_id'],
@@ -203,11 +205,18 @@ def create_event(request):
                     event.save()
                     send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было добавлено! ")
                     return render(request, 'tgWebAppRender/create_event.html', context={'close': 1})
-                elif action == 'edit':
-                    existing_event = Event.objects.get(id=request.GET.get('event_id'))
-                    fields = ['company_link', 'created_by', 'name', 'description', 'meet_timing', 'event_date', 'tag']
-                    for check in fileds:
-                        pass
+                elif edit_mode == 'edit_mode':
+                    print(event_id)
+                    existing_event = Event.objects.filter(pk=event_id)
+                    existing_event.update(
+                        name=data['company_name'],
+                        description = data['company_description'],
+                        meet_timing = f"{data['date']} {data['time_start']} {data['time_end']}",
+                        event_date = f"{date_to_datetime} {data['time_start']}:00.000 +0300",
+                        tag = tag_object
+                    )
+                    send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было отредактировано! ")
+                    return render(request, 'tgWebAppRender/create_event.html', context={'close': 1})
 
             else:
                 if not action:

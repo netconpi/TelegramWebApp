@@ -32,6 +32,9 @@
                     {% csrf_token %}
                     <input class="form-control" name="telegram_id" type="hidden" id="tg_id">
 					<input type="hidden" name="tag_id" id="tag_id_input">
+					{% if event %}
+						<input type="hidden" name="edit_mode" id="edit_mode" value="edit_mode">
+					{% endif %}
                     {% if warn == 1%}
                         <p>Простите, но не все важные поля заполнены.</p>
                         <p>Обязательные поля к заполнению: название, описание, дата, время</p>
@@ -200,7 +203,12 @@
 						<button class="btn-link" type="button">Создать категорию: /add_tag</button>
 					</div>
 					<div class="form__footer">
-						<button class="btn btn--wide" type="submit">Создать встречу</button>
+						{% if not event %}
+							<button class="btn btn--wide" type="submit" >Создать встречу</button>
+						{% else %}
+							<input type="hidden" name="event_id" value="{{ event.id }}">
+							<button class="btn btn--wide" type="submit">Изменить встречу</button>
+						{% endif %}
 					</div>
 				</form>
 			</div>
