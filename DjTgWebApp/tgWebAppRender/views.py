@@ -137,16 +137,6 @@ def calendartasklist(request):
 
 def create_event(request):
 
-    '''
-    action = request.GET.get('action')
-    print(request.GET)
-    if action: 
-        if action == "edit":
-            print('called edit action')
-        if action == "remove":
-            print('called remove action')
-    '''
-
     if request.method == "POST":
         return render(request, 'tgWebAppRender/404.html', context={'notificat': request})
     else:
@@ -184,6 +174,8 @@ def create_event(request):
 
             if important == 5: 
                 tmp_date_holder = data['date'].split('/')
+                if len(tmp_date_holder) < 2:
+                    return render(request, 'tgWebAppRender/create_event.html', context={'warn': 1, 'tags': tags})
                 date_to_datetime = tmp_date_holder[2] + "-" + tmp_date_holder[1] + "-" + tmp_date_holder[0]
                 del tmp_date_holder
                 tag_id = request.GET.get('tag_id')
@@ -203,7 +195,7 @@ def create_event(request):
                         tag = tag_object
                     )
                     event.save()
-                    send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было добавлено! ")
+                    send_telegram(data['telegram_id'], f"✅ Событие: {data['company_name']} -- было добавлено! ")
                     return render(request, 'tgWebAppRender/create_event.html', context={'close': 1})
                 elif edit_mode == 'edit_mode':
                     print(event_id)
@@ -215,7 +207,7 @@ def create_event(request):
                         event_date = f"{date_to_datetime} {data['time_start']}:00.000 +0300",
                         tag = tag_object
                     )
-                    send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было отредактировано! ")
+                    send_telegram(data['telegram_id'], f"✏️ Событие: {data['company_name']} -- было отредактировано! ")
                     return render(request, 'tgWebAppRender/create_event.html', context={'close': 1})
 
             else:
@@ -224,6 +216,13 @@ def create_event(request):
                 elif action == 'edit':
                     event_to_return = Event.objects.get(id=request.GET.get('event_id'))
                     return render(request, 'tgWebAppRender/create_event.html', context={'event': event_to_return})
+                elif action == 'remove':
+                    event_to_remove = Event.objects.filter(pk=event_id)
+                    tg_id_event = event_to_remove[0].created_by
+                    event_name = event_to_remove[0].name
+                    event_to_remove.delete()
+                    send_telegram(tg_id_event, f"🚫 Событие: {event_name} -- было удалено! ")
+                    return render(request, 'tgWebAppRender/create_event.html', context={'close': 1})
                 else:
                     return render(request, 'tgWebAppRender/404.html', context={})
 
