@@ -76,6 +76,18 @@ def add_event(user_id):
     return event
 
 
+def shared_list(user_id):
+    event = [
+        [
+            InlineKeyboardButton(
+                text.SHARED_BTN, 
+                web_app=WebAppInfo(url=f"https://singup.ru/shared?tg_id={user_id}"),
+            ),
+        ],
+    ]
+    return event
+
+
 def events(user_id):
     event = [
         [

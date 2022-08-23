@@ -308,6 +308,15 @@ def display_event(request):
     else:
         return render(request, 'tgWebAppRender/404.html', {})
 
+def shared_list(request):
+    # main render logic 
+    tg_id = request.GET.get('tg_id')
+    shared_companys = SharedCalendar.objects.filter(shared_with__telegram_id=tg_id)
+    try:
+        return render(request, 'tgWebAppRender/shared.html', context={'shared': shared_companys})
+    except Exception as e:
+        return render(request, 'tgWebAppRender/shared.html', context={'shared': ''})
+
 # Pending
 
 class ClientProfile(View):
