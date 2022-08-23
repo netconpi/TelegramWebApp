@@ -82,6 +82,13 @@ class Tag(models.Model):
     def __str__(self) -> str:
         return f"{self.created_by.name}, {self.name}"
 
+class SharedCalendar(models.Model):
+    celandar_owner = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name="Owner", null=True)
+    shared_with = models.ForeignKey(UserApp, on_delete=models.PROTECT, verbose_name="Shared with", null=True)
+
+    def __str__(self) -> str:
+        return f"Calendar: {self.celandar_owner.name}, shared: {self.shared_with.name}"
+
 class Event(models.Model):
     company_link = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name="Company link", null=True)
     created_by = models.CharField(max_length=255, verbose_name='Tg ID', null=True)
