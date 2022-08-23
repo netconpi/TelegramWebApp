@@ -28,6 +28,10 @@ def main() -> None:
     application.add_handler(CommandHandler("add_event", act.addevent))
     application.add_handler(CommandHandler("events", act.events))
 
+    # User logic
+    application.add_handler(CommandHandler("appointments", act.appoint))
+    application.add_handler(CommandHandler("shared", act.shared))
+
 
     # Run the bot until the user presses Ctrl-C 
     application.run_polling()

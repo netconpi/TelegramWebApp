@@ -96,6 +96,28 @@ async def events(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
 
 
+async def appoint(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if db.check(update.message['chat']['id'], 'user'):
+        await update.message.reply_text(
+            text.EVENTS, 
+        )
+    else:
+        await update.message.reply_text(
+            text.NOT_REGISTRED, 
+        )
+
+
+async def shared(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if db.check(update.message['chat']['id'], 'user'):
+        await update.message.reply_text(
+            text.APPOINT_START, 
+        )
+    else:
+        await update.message.reply_text(
+            text.NOT_REGISTRED, 
+        )
+
+
 # Not using, for ConversationHandler
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
