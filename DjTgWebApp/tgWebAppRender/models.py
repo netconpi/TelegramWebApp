@@ -89,6 +89,13 @@ class SharedCalendar(models.Model):
     def __str__(self) -> str:
         return f"Calendar: {self.celandar_owner.name}, shared: {self.shared_with.name}"
 
+class InvationToken(models.Model):
+    owner = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name="Invation owner", null=True)
+    token = models.CharField(max_length=255, verbose_name='Invation token', null=True)
+
+    def __str__(self):
+        return f"token: {self.token}, owner: {self.owner.name}"
+
 class Event(models.Model):
     company_link = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name="Company link", null=True)
     created_by = models.CharField(max_length=255, verbose_name='Tg ID', null=True)

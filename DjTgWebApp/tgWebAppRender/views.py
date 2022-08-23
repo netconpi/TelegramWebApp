@@ -395,7 +395,6 @@ class SubscribeChoose(View):
         context = {}
         return render(request, 'tgWebAppRender/subscribe-choose.html', context)
 
-
 # Not used
 
 class LoginHome(View):
