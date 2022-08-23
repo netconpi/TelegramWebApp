@@ -151,6 +151,7 @@ def create_event(request):
         return render(request, 'tgWebAppRender/404.html', context={'notificat': request})
     else:
         tg_id = request.GET.get('tg_id')
+        action = request.GET.get('action')
         # Form custom validation
         data = {
             'telegram_id': request.GET.get('telegram_id'),
@@ -188,20 +189,34 @@ def create_event(request):
                     tag_object = Tag.objects.get(id=tag_id)
                 else:
                     tag_object = None
-                event = Event(
-                    company_link = Company.objects.get(telegram_id=data['telegram_id']),
-                    created_by = data['telegram_id'],
-                    name = data['company_name'],
-                    description = data['company_description'],
-                    meet_timing = f"{data['date']} {data['time_start']} {data['time_end']}",
-                    event_date = f"{date_to_datetime} {data['time_start']}:00.000 +0300",
-                    tag = tag_object
-                )
-                event.save()
-                send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было добавлено! ")
-                return render(request, 'tgWebAppRender/create_event.html', context={'close': 1})
+
+                if not action:
+                    event = Event(
+                        company_link = Company.objects.get(telegram_id=data['telegram_id']),
+                        created_by = data['telegram_id'],
+                        name = data['company_name'],
+                        description = data['company_description'],
+                        meet_timing = f"{data['date']} {data['time_start']} {data['time_end']}",
+                        event_date = f"{date_to_datetime} {data['time_start']}:00.000 +0300",
+                        tag = tag_object
+                    )
+                    event.save()
+                    send_telegram(data['telegram_id'], f"Событие: {data['company_name']} -- было добавлено! ")
+                    return render(request, 'tgWebAppRender/create_event.html', context={'close': 1})
+                elif action == 'edit':
+                    existing_event = Event.objects.get(id=request.GET.get('event_id'))
+                    fields = ['company_link', 'created_by', 'name', 'description', 'meet_timing', 'event_date', 'tag']
+                    for check in fileds:
+                        pass
+
             else:
-                return render(request, 'tgWebAppRender/create_event.html', context={'warn': 1, 'tags': tags})
+                if not action:
+                    return render(request, 'tgWebAppRender/create_event.html', context={'warn': 1, 'tags': tags})
+                elif action == 'edit':
+                    event_to_return = Event.objects.get(id=request.GET.get('event_id'))
+                    return render(request, 'tgWebAppRender/create_event.html', context={'event': event_to_return})
+                else:
+                    return render(request, 'tgWebAppRender/404.html', context={})
 
 def notifications(request):
     # main render logic 

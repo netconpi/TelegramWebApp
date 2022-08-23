@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 class UserApp(models.Model):
@@ -100,6 +101,79 @@ class Event(models.Model):
     @property
     def give_color(self):
         return self.tag.color
+
+    @property
+    def give_day_alphabetic(self):
+        date_list = self.meet_timing.split()
+        date_object = datetime.datetime.strptime(f'{date_list[0]} {date_list[1]}', '%d/%m/%Y %H:%M')
+
+        dates_name = {
+            'Monday': 'Понедельник',
+            'Tuesday': 'Вторник',
+            'Wednesday': 'Среда',
+            'Thursday': 'Четверг',
+            'Friday': 'Пятница',
+            'Saturday': 'Суббота',
+            'Sunday': 'Воскресенье',
+        }
+
+        return dates_name[date_object.strftime('%A')]
+
+    @property
+    def give_year(self):
+        date_list = self.meet_timing.split()
+        date_object = datetime.datetime.strptime(f'{date_list[0]} {date_list[1]}', '%d/%m/%Y %H:%M')
+
+        return date_object.strftime('%d/%m/%Y')
+
+    @property
+    def time_start(self):
+        time_split = self.meet_timing.split()
+
+        return time_split[1]
+
+    @property
+    def time_end(self):
+        time_split = self.meet_timing.split()
+
+        return time_split[2]
+
+    @property
+    def generate_times(self):
+        step = 15
+        dt = datetime.datetime.strptime('00:00', '%H:%M')
+
+        dt += datetime.timedelta(minutes=step)
+        steps_string = [dt.strftime('%H:%M')]
+        output_line = "{% if event.time_start == '"
+        output_line += dt.strftime('%H:%M') + "'"
+        output_line += ''' %}<option value="'''
+        output_line += f'''{dt.strftime('%H:%M')}" selected>{dt.strftime('%H:%M')}</option>'''
+        output_line += "{% else "
+        output_line += '''%}<option value='''
+        output_line += f'''{dt.strftime('%H:%M')}>{dt.strftime('%H:%M')}</option>'''
+        output_line += "{% endif"
+        output_line += " %}"
+        times = [output_line]
+
+        while steps_string[-1] != '00:00':
+            dt += datetime.timedelta(minutes=step)
+            output_line = "{% if event.time_start == '"
+            output_line += dt.strftime('%H:%M') + "'"
+            output_line += ''' %}<option value="'''
+            output_line += f'''{dt.strftime('%H:%M')}" selected>{dt.strftime('%H:%M')}</option>'''
+            output_line += "{% else "
+            output_line += '''%}<option value='''
+            output_line += f'''{dt.strftime('%H:%M')}>{dt.strftime('%H:%M')}</option>'''
+            output_line += "{% endif"
+            output_line += " %}"
+            steps_string.append(
+                dt.strftime('%H:%M')
+            ) 
+            
+            times.append(output_line)
+
+        return steps_string
 
     def __str__(self) -> str:
         return f"{self.company_link}"

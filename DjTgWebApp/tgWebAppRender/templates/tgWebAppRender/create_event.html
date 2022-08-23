@@ -41,120 +41,141 @@
                     {% endif %}
 					<div class="row">
 						<div class="mb-1 col col-12">
-							<input class="form-control" name="company_name" type="text" placeholder="Название встречи">
+							<input class="form-control" name="company_name" type="text" placeholder="Название встречи" value="{{ event.name }}">
 						</div>
 						<div class="mb-1 col col-12">
-							<textarea class="form-control" name="company_description" placeholder="Описание"></textarea>
+							<textarea class="form-control" name="company_description" value="" placeholder="Описание">{{ event.description }}</textarea>
 						</div>
 						<div class="mb-1 col col-12">
 							<div class="date-control">
-								<input class="form-control" type="text" placeholder="Дата" name="date">
+								<input class="form-control" type="text" placeholder="Дата" name="date" value="{{ event.give_year }}">
 							</div>
 						</div>
 						<div class="mb-1 col col-6">
 							<select class="form-control time-choices" name="time_start">
 								<option value="">Начало</option>
-								<option value="00:00">00:00</option>
-								<option value="00:30">00:30</option>
-								<option value="01:00">01:00</option>
-								<option value="01:30">01:30</option>
-								<option value="02:00">02:00</option>
-								<option value="02:30">02:30</option>
-								<option value="03:00">03:00</option>
-								<option value="03:30">03:30</option>
-								<option value="04:00">04:00</option>
-								<option value="04:30">04:30</option>
-								<option value="05:00">05:00</option>
-								<option value="05:30">05:30</option>
-								<option value="06:00">06:00</option>
-								<option value="06:30">06:30</option>
-								<option value="07:00">07:00</option>
-								<option value="07:30">07:30</option>
-								<option value="08:00">08:00</option>
-								<option value="08:30">08:30</option>
-								<option value="09:00">09:00</option>
-								<option value="09:30">09:30</option>
-								<option value="10:00">10:00</option>
-								<option value="10:30">10:30</option>
-								<option value="11:00">11:00</option>
-								<option value="11:30">11:30</option>
-								<option value="12:00">12:00</option>
-								<option value="12:30">12:30</option>
-								<option value="13:00">13:00</option>
-								<option value="13:30">13:30</option>
-								<option value="14:00">14:00</option>
-								<option value="14:30">14:30</option>
-								<option value="15:00">15:00</option>
-								<option value="15:30">15:30</option>
-								<option value="16:00">16:00</option>
-								<option value="16:30">16:30</option>
-								<option value="17:00">17:00</option>
-								<option value="17:30">17:30</option>
-								<option value="18:00">18:00</option>
-								<option value="18:30">18:30</option>
-								<option value="19:00">19:00</option>
-								<option value="19:30">19:30</option>
-								<option value="20:00">20:00</option>
-								<option value="20:30">20:30</option>
-								<option value="21:00">21:00</option>
-								<option value="21:30">21:30</option>
-								<option value="22:00">22:00</option>
-								<option value="22:30">22:30</option>
-								<option value="23:00">23:00</option>
-								<option value="23:30">23:30</option>
+								{% for i in event.generate_times %}
+									{% if i == event.time_start %}
+										<option value="{{ i }}" selected>{{ i }}</option>
+									{% else %}
+										<option value="{{ i }}">{{ i }}</option>
+									{% endif %}
+								{% endfor %}
+
+								{% if not event %}
+									<option value="00:00">00:00</option>
+									<option value="00:30">00:30</option>
+									<option value="01:00">01:00</option>
+									<option value="01:30">01:30</option>
+									<option value="02:00">02:00</option>
+									<option value="02:30">02:30</option>
+									<option value="03:00">03:00</option>
+									<option value="03:30">03:30</option>
+									<option value="04:00">04:00</option>
+									<option value="04:30">04:30</option>
+									<option value="05:00">05:00</option>
+									<option value="05:30">05:30</option>
+									<option value="06:00">06:00</option>
+									<option value="06:30">06:30</option>
+									<option value="07:00">07:00</option>
+									<option value="07:30">07:30</option>
+									<option value="08:00">08:00</option>
+									<option value="08:30">08:30</option>
+									<option value="09:00">09:00</option>
+									<option value="09:30">09:30</option>
+									<option value="10:00">10:00</option>
+									<option value="10:30">10:30</option>
+									<option value="11:00">11:00</option>
+									<option value="11:30">11:30</option>
+									<option value="12:00">12:00</option>
+									<option value="12:30">12:30</option>
+									<option value="13:00">13:00</option>
+									<option value="13:30">13:30</option>
+									<option value="14:00">14:00</option>
+									<option value="14:30">14:30</option>
+									<option value="15:00">15:00</option>
+									<option value="15:30">15:30</option>
+									<option value="16:00">16:00</option>
+									<option value="16:30">16:30</option>
+									<option value="17:00">17:00</option>
+									<option value="17:30">17:30</option>
+									<option value="18:00">18:00</option>
+									<option value="18:30">18:30</option>
+									<option value="19:00">19:00</option>
+									<option value="19:30">19:30</option>
+									<option value="20:00">20:00</option>
+									<option value="20:30">20:30</option>
+									<option value="21:00">21:00</option>
+									<option value="21:30">21:30</option>
+									<option value="22:00">22:00</option>
+									<option value="22:30">22:30</option>
+									<option value="23:00">23:00</option>
+									<option value="23:30">23:30</option>
+								{% endif %}
+
 							</select>
 						</div>
 						<div class="mb-1 col col-6">
 							<select class="form-control time-choices" name="time_end">
 								<option value="">Конец</option>
-								<option value="00:00">00:00</option>
-								<option value="00:30">00:30</option>
-								<option value="01:00">01:00</option>
-								<option value="01:30">01:30</option>
-								<option value="02:00">02:00</option>
-								<option value="02:30">02:30</option>
-								<option value="03:00">03:00</option>
-								<option value="03:30">03:30</option>
-								<option value="04:00">04:00</option>
-								<option value="04:30">04:30</option>
-								<option value="05:00">05:00</option>
-								<option value="05:30">05:30</option>
-								<option value="06:00">06:00</option>
-								<option value="06:30">06:30</option>
-								<option value="07:00">07:00</option>
-								<option value="07:30">07:30</option>
-								<option value="08:00">08:00</option>
-								<option value="08:30">08:30</option>
-								<option value="09:00">09:00</option>
-								<option value="09:30">09:30</option>
-								<option value="10:00">10:00</option>
-								<option value="10:30">10:30</option>
-								<option value="11:00">11:00</option>
-								<option value="11:30">11:30</option>
-								<option value="12:00">12:00</option>
-								<option value="12:30">12:30</option>
-								<option value="13:00">13:00</option>
-								<option value="13:30">13:30</option>
-								<option value="14:00">14:00</option>
-								<option value="14:30">14:30</option>
-								<option value="15:00">15:00</option>
-								<option value="15:30">15:30</option>
-								<option value="16:00">16:00</option>
-								<option value="16:30">16:30</option>
-								<option value="17:00">17:00</option>
-								<option value="17:30">17:30</option>
-								<option value="18:00">18:00</option>
-								<option value="18:30">18:30</option>
-								<option value="19:00">19:00</option>
-								<option value="19:30">19:30</option>
-								<option value="20:00">20:00</option>
-								<option value="20:30">20:30</option>
-								<option value="21:00">21:00</option>
-								<option value="21:30">21:30</option>
-								<option value="22:00">22:00</option>
-								<option value="22:30">22:30</option>
-								<option value="23:00">23:00</option>
-								<option value="23:30">23:30</option>
+								{% for i in event.generate_times %}
+									{% if i == event.time_end %}
+										<option value="{{ i }}" selected>{{ i }}</option>
+									{% else %}
+										<option value="{{ i }}">{{ i }}</option>
+									{% endif %}
+								{% endfor %}
+
+								{% if not event %}
+									<option value="00:00">00:00</option>
+									<option value="00:30">00:30</option>
+									<option value="01:00">01:00</option>
+									<option value="01:30">01:30</option>
+									<option value="02:00">02:00</option>
+									<option value="02:30">02:30</option>
+									<option value="03:00">03:00</option>
+									<option value="03:30">03:30</option>
+									<option value="04:00">04:00</option>
+									<option value="04:30">04:30</option>
+									<option value="05:00">05:00</option>
+									<option value="05:30">05:30</option>
+									<option value="06:00">06:00</option>
+									<option value="06:30">06:30</option>
+									<option value="07:00">07:00</option>
+									<option value="07:30">07:30</option>
+									<option value="08:00">08:00</option>
+									<option value="08:30">08:30</option>
+									<option value="09:00">09:00</option>
+									<option value="09:30">09:30</option>
+									<option value="10:00">10:00</option>
+									<option value="10:30">10:30</option>
+									<option value="11:00">11:00</option>
+									<option value="11:30">11:30</option>
+									<option value="12:00">12:00</option>
+									<option value="12:30">12:30</option>
+									<option value="13:00">13:00</option>
+									<option value="13:30">13:30</option>
+									<option value="14:00">14:00</option>
+									<option value="14:30">14:30</option>
+									<option value="15:00">15:00</option>
+									<option value="15:30">15:30</option>
+									<option value="16:00">16:00</option>
+									<option value="16:30">16:30</option>
+									<option value="17:00">17:00</option>
+									<option value="17:30">17:30</option>
+									<option value="18:00">18:00</option>
+									<option value="18:30">18:30</option>
+									<option value="19:00">19:00</option>
+									<option value="19:30">19:30</option>
+									<option value="20:00">20:00</option>
+									<option value="20:30">20:30</option>
+									<option value="21:00">21:00</option>
+									<option value="21:30">21:30</option>
+									<option value="22:00">22:00</option>
+									<option value="22:30">22:30</option>
+									<option value="23:00">23:00</option>
+									<option value="23:30">23:30</option>
+								{% endif %}
 							</select>
 						</div>
 					</div>
