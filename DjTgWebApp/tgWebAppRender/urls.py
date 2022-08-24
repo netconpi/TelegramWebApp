@@ -6,7 +6,7 @@ urlpatterns = [
     # path('register/', views.RegisterUser.as_view(), name='register'),
     # Admin part
     # Unregistred flow
-    path('add_company/', views.AddCompany.as_view(), name='add-company'),
+    path('add_company/', views.add_company, name='add-company'),
     path('create_account/', views.basic_registration, name='new-account'),
     path('404/', views.NotFound.as_view(), name='not_found'),
     # Only registred user flow

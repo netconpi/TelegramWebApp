@@ -93,6 +93,65 @@ def basic_registration(request):
     else:
         return render(request, 'tgWebAppRender/user_registration.html', context={'error': 'Обратите внимание на то, что все поля являются обязательными'})
 
+def add_company(request):
+    # print(request.POST)
+    data = {
+        'telegram_id': request.POST.get('telegram_id'),
+    	'name': request.POST.get('name'),
+    	'description': request.POST.get('description'),
+    	'work_time': request.POST.getlist('work_time'),
+    	'meet_timing': request.POST.get('meet_timing'),
+    	'meet_timing_end': request.POST.get('meet_timing_end'),
+    	'duration': request.POST.get('duration'),
+    	'whatsapp': request.POST.get('whatsapp'),
+    	'meeting_link':  request.POST.get('meeting_link'),
+    	'skype': request.POST.get('skype'),
+    	'tg_link': request.POST.get('tg_link'),
+    	'email': request.POST.get('email'),
+    	'password_unsafe':request.POST.get('password_unsafe'),
+        'password_confirm_unsafe': request.POST.get('password_confirm_unsafe'),
+    }
+
+    not_filed = []
+    for name, value in data.items():
+        if value:
+            pass
+        else:
+            not_filed.append(name)
+
+    if len(not_filed) == len(data):
+        return render(request, 'tgWebAppRender/add-company.html', context={})
+    elif len(not_filed) >= 1:
+        return render(request, 'tgWebAppRender/add-company.html', context={'not_filed': not_filed, 'data': data})
+    else:
+        new_company = Company(
+            telegram_id=data['telegram_id'],
+            name=data['name'],
+            description=data['description'],
+            work_time=data['work_time'],
+            meet_timing=data['meet_timing'],
+            meet_timing_end=data['meet_timing_end'],
+            duration=data['duration'],
+            email=data['email'],
+            whatsapp=data['whatsapp'],
+            meeting_link=data['meeting_link'],
+            skype=data['skype'],
+            tg_link=data['tg_link'],
+            password_unsafe=data['password_unsafe'],
+            password_confirm_unsafe=data['password_confirm_unsafe'],
+        )
+        try: 
+            new_company.save()
+            send_telegram(data['telegram_id'], f"🚀 Мы получили данные: {data['name']}, вы стали исполнителем!")
+            return render(request, 'tgWebAppRender/add-company.html', context={'close': 1})
+
+        except Exception as e:
+            send_telegram(data['telegram_id'], f"{e}")
+
+
+        return render(request, 'tgWebAppRender/add-company.html', context={'not_filed': not_filed, 'data': data})
+        
+
 class AddCompany(CreateView):
     model = Company
     fields = [

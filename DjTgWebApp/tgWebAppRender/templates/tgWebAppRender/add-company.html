@@ -27,6 +27,12 @@
 		<main class="app__main">
 			<form class="form" method="post">
 				{% csrf_token %} 
+				{% if not_filed %}
+				 <p>Вы не заполнили поля: {{not_filed}}</p>
+				{% endif %}
+				{% if close == 1%}
+					<p id="Recorded">Данные записаны</p>
+				{% endif %}
 				<input class="form-control" name="telegram_id" type="hidden" id="tg_id">
 				<div class="avatar-edit">
 					<div class="avatar">
@@ -36,14 +42,14 @@
 				<fieldset id="hid">
 					<legend class="sr-only">Информация (! Важно)</legend>
 					<div class="mb-1">
-						<input class="form-control" name="name" type="text" placeholder="Имя или  название компании">
+						<input class="form-control" name="name" type="text" placeholder="Имя или  название компании" value="{{ data.name }}">
 					</div>
 					<div class="mb-1">
-						<textarea class="form-control" name="description" placeholder="Описание"></textarea>
+						<textarea class="form-control" name="description" placeholder="Описание">{{ data.description }}</textarea>
 					</div>
 				</fieldset>
 				<fieldset>
-					<legend>График работы (Не обязательные поля)</legend>
+					<legend>График работы</legend>
 					<div class="row">
 						<div class="mb-1 col col-12">
 							<select class="form-control days-choices" name="work_time" multiple>
@@ -168,50 +174,71 @@
 					<legend>Тайминг встречь</legend>
 					<div class="tag-list tag-list--lg">
 						<div class="tag-list__item">
+							{% if data.work_time == '15min' %}
+							<div class="tag tag--blue">
+								<input class="tag__ctrl" name="duration" type="radio" value="15min" checked>
+								<span class="tag__name">15 мин</span>
+							</div>
+							{% else %}
 							<div class="tag tag--lg">
 								<input class="tag__ctrl" name="duration" type="radio" value="15min">
 								<span class="tag__name">15 мин</span>
 							</div>
+							{% endif %}
 						</div>
 						<div class="tag-list__item">
+							{% if data.work_time == '30min' %}
+							<div class="tag tag--blue">
+								<input class="tag__ctrl" name="duration" type="radio" value="30min" checked>
+								<span class="tag__name">30 мин</span>
+							</div>
+							{% else %}
 							<div class="tag tag--lg">
 								<input class="tag__ctrl" name="duration" type="radio" value="30min">
 								<span class="tag__name">30 мин</span>
 							</div>
+							{% endif %}
 						</div>
 						<div class="tag-list__item">
+							{% if data.work_time == '60min' %}
+							<div class="tag tag--blue">
+								<input class="tag__ctrl" name="duration" type="radio" value="60min" checked>
+								<span class="tag__name">60 мин</span>
+							</div>
+							{% else %}
 							<div class="tag tag--lg">
 								<input class="tag__ctrl" name="duration" type="radio" value="60min">
 								<span class="tag__name">60 мин</span>
 							</div>
+							{% endif %}
 						</div>
 					</div>
 				</fieldset>
 				<fieldset>
 					<legend>Способ связи</legend>
 					<div class="mb-1">
-						<input class="form-control" name="whatsapp" type="text" placeholder="WhatsApp">
+						<input class="form-control" name="whatsapp" type="text" placeholder="WhatsApp" value="{{ data.whatsapp }}">
 					</div>
 					<div class="mb-1">
-						<input class="form-control" name="meeting_link" type="text" placeholder="Ссылка на встречу">
+						<input class="form-control" name="meeting_link" type="text" placeholder="Ссылка на встречу" value="{{ data.meeting_link }}">
 					</div>
 					<div class="mb-1">
-						<input class="form-control" name="skype" type="text" placeholder="Skype">
+						<input class="form-control" name="skype" type="text" placeholder="Skype" value="{{ data.skype }}">
 					</div>
 					<div class="mb-1">
-						<input class="form-control" name="tg_link" type="text" placeholder="Telegram account">
+						<input class="form-control" name="tg_link" type="text" placeholder="Telegram account" value="{{ data.tg_link }}">
 					</div>
 				</fieldset>
 				<fieldset>
 					<legend>Данные для доступа</legend>
 					<div class="mb-1">
-						<input class="form-control" name="email" type="email" placeholder="Укажите email">
+						<input class="form-control" name="email" type="email" placeholder="Укажите email" value="{{ data.email }}">
 					</div>
 					<div class="mb-1">
-						<input class="form-control" name="password_unsafe" type="password" placeholder="Придумайте пароль">
+						<input class="form-control" name="password_unsafe" type="password" placeholder="Придумайте пароль" value="{{ data.password_unsafe }}">
 					</div>
 					<div class="mb-1">
-						<input class="form-control" name="password_confirm_unsafe" type="password" placeholder="Повторить пароль">
+						<input class="form-control" name="password_confirm_unsafe" type="password" placeholder="Повторить пароль" value="{{ data.password_confirm_unsafe }}">
 					</div>
 				</fieldset>
 				<div class="form__footer">
@@ -229,11 +256,15 @@
 		input.setAttribute("value", `${tg.initDataUnsafe.user.id}`);
 		document.getElementById('tg_id').readOnly = true;
 
-		document.getElementById("register_btn").addEventListener('click', () => {
-			tg.close();
-			const data = JSON.stringify({status: 200, action: new_registration});
-        	tg.sendData(data);
-		});
+		try { // statements to try
+            close = document.getElementById('Recorded')
+            if (close != null) {
+                let tg = window.Telegram.WebApp;
+                tg.close();
+            }
+		} catch (e) {
+			console.log(e)
+		}
 
 	</script>
 	<script src="{% static 'tgWebAppRender/js/plugins/choices/choices.min.js' %}" defer></script>
