@@ -119,6 +119,17 @@ async def shared(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
 
 
+async def addtag(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if db.check(update.message['chat']['id']):
+        await update.message.reply_text(
+            text.APPOINT_START, 
+        )
+    else:
+        await update.message.reply_text(
+            text.ADDTAG_NO_PERMS, 
+        )
+
+
 # Not using, for ConversationHandler
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
