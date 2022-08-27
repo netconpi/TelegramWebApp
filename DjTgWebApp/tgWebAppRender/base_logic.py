@@ -26,5 +26,4 @@ def is_working_weekday(date: dt_lib.datetime, weekday: list) -> bool:
     for day in weekday:
         if int(day) == weekday_dateobj:
             return True
-        else:
-            return False 
+    return False 

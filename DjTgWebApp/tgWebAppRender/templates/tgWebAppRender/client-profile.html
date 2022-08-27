@@ -51,13 +51,17 @@
 								</button>
 								<div class="event-snippet__time"><span class="task-point task-point--green"></span> {{ v }}</div>
 								<div class="tag-list">
-									{% for time in free.k %}
-									<div class="tag-list__item">
-										<div class="tag">
-											<input class="tag__ctrl" name="times[]" type="radio">
-											<span class="tag__name">{{ time }}</span>
+									{% for key, time in free.items %}
+										{% if key == k%}
+										{% for tt in time %}
+										<div class="tag-list__item">
+											<div class="tag">
+												<input class="tag__ctrl" name="times[]" type="radio">
+												<span class="tag__name">{{ tt }}</span>
+											</div>
 										</div>
-									</div>
+										{% endfor %}
+										{% endif %}
 									{% endfor %}
 								</div>
 							</div><!-- event-snippet -->

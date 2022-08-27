@@ -411,6 +411,7 @@ def lk_shared(request):
     for i in range(3):
 
         while not base_logic.is_working_weekday(now_time, working_days):
+            print('change')
             now_time += datetime.timedelta(days=1)
             work_time_start += datetime.timedelta(days=1)
             work_time_end += datetime.timedelta(days=1)
@@ -423,8 +424,6 @@ def lk_shared(request):
             )
             nexx = work_time_start
 
-
-            print(work_time_start, now_time, work_time_end)
             if (work_time_start >= now_time 
                     and now_time <= work_time_end):
                 have_event = Event.objects.filter(
