@@ -40,7 +40,7 @@
 				<div class="user-profile__data">
 					<div class="mb-1">
 						<div class="form-label">Ближайшие свободные даты</div>
-						{% for days in day %}
+						{% for k, v in day.items %}
 							<div class="event-snippet event-snippet--transparent">
 								<button class="btn-more" type="button">
 									<span class="svg-icon svg-icon--btn-more btn__icon" aria-hidden="true">
@@ -49,13 +49,13 @@
 										</svg>
 									</span>
 								</button>
-								<div class="event-snippet__time"><span class="task-point task-point--green"></span> {{ days }}</div>
+								<div class="event-snippet__time"><span class="task-point task-point--green"></span> {{ v }}</div>
 								<div class="tag-list">
-									{% for time in free %}
+									{% for time in free.k %}
 									<div class="tag-list__item">
 										<div class="tag">
 											<input class="tag__ctrl" name="times[]" type="radio">
-											<span class="tag__name">{{time}}</span>
+											<span class="tag__name">{{ time }}</span>
 										</div>
 									</div>
 									{% endfor %}

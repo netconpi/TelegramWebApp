@@ -8,6 +8,7 @@ from django.views import View
 from django.conf import settings
 import requests
 import datetime
+from . import base_logic 
 
 from .models import *
 import datetime
@@ -151,7 +152,6 @@ def add_company(request):
 
         return render(request, 'tgWebAppRender/add-company.html', context={'not_filed': not_filed, 'data': data})
         
-
 class AddCompany(CreateView):
     model = Company
     fields = [
@@ -315,15 +315,6 @@ def display_event(request):
         information_event = Event.objects.get(id=event_id)
         date_list = information_event.meet_timing.split()
         date_object = datetime.datetime.strptime(f'{date_list[0]} {date_list[1]}', '%d/%m/%Y %H:%M')
-        dates_name = {
-            'Monday': 'Понедельник',
-            'Tuesday': 'Вторник',
-            'Wednesday': 'Среда',
-            'Thursday': 'Четверг',
-            'Friday': 'Пятница',
-            'Saturday': 'Суббота',
-            'Sunday': 'Воскресенье',
-        }
 
         # Maybe None, just need to check it 
         try:
@@ -356,7 +347,7 @@ def display_event(request):
                 'name': information_event.name,
                 'link_method': information_event.link_method,
                 'descript': information_event.description,
-                'day': f"{dates_name[date_object.strftime('%A')]}, {date_list[1]}-{date_list[2]}",
+                'day': f"{base_logic.dates_name[date_object.strftime('%A')]}, {date_list[1]}-{date_list[2]}",
                 'attending': output_users_list,
                 'category': tag_name,
                 'categoty_color': tag_color,
@@ -377,60 +368,102 @@ def shared_list(request):
         return render(request, 'tgWebAppRender/shared.html', context={'shared': ''})
 
 def lk_shared(request):
+    # Getting information form REQUEST 
     user_id = request.GET.get('user_id')
     owner_id = request.GET.get('owner_id')
     company = Company.objects.filter(telegram_id=owner_id)
-    print(company[0].name)
 
-    # company_events = Event.objects.filter(company_link=company)
-    availability = []
-
-    now_time = datetime.datetime.now() + datetime.timedelta(hours=3)
-    time_step = company[0].duration[:2]
-
-    time_now_toproceed = datetime.datetime.strptime(now_time.strftime('%H:%M'), '%H:%M')
-
-    work_time_start = datetime.datetime.strptime(company[0].meet_timing, '%H:%M')
-    work_time_end = datetime.datetime.strptime(company[0].meet_timing_end, '%H:%M')
-
-    dates_name = {
-        'Monday': 'Понедельник',
-        'Tuesday': 'Вторник',
-        'Wednesday': 'Среда',
-        'Thursday': 'Четверг',
-        'Friday': 'Пятница',
-        'Saturday': 'Суббота',
-        'Sunday': 'Воскресенье',
+    # Dates for record
+    day = {
+        0: '',
+        1: '',
+        2: '',
     }
+    availability = {
+        0: [],
+        1: [],
+        2: [],
+    }
+    # Working days list. Example [1, 2, 3]
+    # Where 1 - Monday and etc
+    working_days = base_logic.convert_strlist2list(
+        company[0].work_time
+    )
+    # Getting UTC time + 3 hours to MSK time
+    # Remove this if you will edit dajngo prj settings
+    now_time = datetime.datetime.now() + datetime.timedelta(hours=3)
+    # timestep, in registration field. need to count
+    time_step = company[0].duration[:2]
+    # Dates datetime-objects
+    work_time_start = datetime.datetime.strptime(
+        f"{now_time.strftime('%d/%m/%Y')} {company[0].meet_timing}", 
+        '%d/%m/%Y %H:%M'
+    )
+    w_tm_bcup = [
+        int(work_time_start.strftime("%H")),
+        int(work_time_start.strftime("%M"))
+    ]
+    work_time_end = datetime.datetime.strptime(
+        f"{now_time.strftime('%d/%m/%Y')} {company[0].meet_timing_end}", 
+        '%d/%m/%Y %H:%M'
+    )
 
-    day = [dates_name[now_time.strftime('%A')]]
+    for i in range(3):
 
-    while work_time_start < work_time_end:
-        previous = work_time_start
-        work_time_start += datetime.timedelta(minutes=int(time_step))
-        nexx = work_time_start
+        while not base_logic.is_working_weekday(now_time, working_days):
+            now_time += datetime.timedelta(days=1)
+            work_time_start += datetime.timedelta(days=1)
+            work_time_end += datetime.timedelta(days=1)
+        day[i] = base_logic.dates_name[now_time.strftime('%A')]
 
-        if work_time_start > time_now_toproceed:
-            have_event = Event.objects.filter(
-                company_link=company[0],
-                event_date__year=now_time.strftime('%Y'),
-                event_date__month=now_time.strftime('%m'),
-                event_date__day=now_time.strftime('%d'),
+        while work_time_start < work_time_end:
+            previous = work_time_start
+            work_time_start += datetime.timedelta(
+                minutes=int(time_step)
             )
+            nexx = work_time_start
 
-            if have_event:
-                for event in have_event:
-                    event_time_start_obj = datetime.datetime.strptime(event.time_start, '%H:%M') 
-                    event_time_end_obj = datetime.datetime.strptime(event.time_end, '%H:%M') 
 
-                    if event.give_year == now_time.strftime('%d/%m/%Y'):
-                        if event_time_start_obj <= previous and event_time_end_obj >= nexx:
+            print(work_time_start, now_time, work_time_end)
+            if (work_time_start >= now_time 
+                    and now_time <= work_time_end):
+                have_event = Event.objects.filter(
+                    company_link=company[0],
+                    event_date__year=now_time.strftime('%Y'),
+                    event_date__month=now_time.strftime('%m'),
+                    event_date__day=now_time.strftime('%d'),
+                )
+
+                if have_event:
+                    print('no event')
+                    for event in have_event:
+                        event_time_start_obj = datetime.datetime.strptime(
+                            f"{now_time.strftime('%d/%m/%Y')} {event.time_start}", 
+                            '%d/%m/%Y %H:%M'
+                        ) 
+                        event_time_end_obj = datetime.datetime.strptime(
+                            f"{now_time.strftime('%d/%m/%Y')} {event.time_end}", 
+                            '%d/%m/%Y %H:%M'
+                        ) 
+
+                        if (event_time_start_obj <= previous 
+                                and event_time_end_obj >= nexx):
                             pass
                         else:
-                            availability.append(f"{previous.strftime('%H:%M')} - {nexx.strftime('%H:%M')}")
-            else:
-                availability.append(f"{previous.strftime('%H:%M')} - {nexx.strftime('%H:%M')}")
+                            availability[i].append(
+                                f"{previous.strftime('%H:%M')} - {nexx.strftime('%H:%M')}"
+                            )
+                else:
+                    availability[i].append(f"{previous.strftime('%H:%M')} - {nexx.strftime('%H:%M')}")
 
+        now_time = now_time.replace(hour=00, minute=00)
+        now_time += datetime.timedelta(days=1)
+        work_time_start += datetime.timedelta(days=1)
+        work_time_end += datetime.timedelta(days=1)
+        work_time_start = work_time_start.replace(
+            hour=w_tm_bcup[0], 
+            minute=w_tm_bcup[1]
+        )
 
     context_local = {'company': company[0], 'free': availability, 'day': day}
 
