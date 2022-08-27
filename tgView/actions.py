@@ -130,6 +130,20 @@ async def addtag(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
 
 
+async def share(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if db.check(update.message['chat']['id'], 'share'):
+        await update.message.reply_text(
+            text.SHARE_TOKEN.format(db.get(update.message['chat']['id'], 'share')), 
+        )
+    else:
+
+        token = db.generate_token(update.message['chat']['id'])
+
+        await update.message.reply_text(
+            text.SHARE_TOKEN_GENERATED.format(token), 
+        )
+
+
 # Not using, for ConversationHandler
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""

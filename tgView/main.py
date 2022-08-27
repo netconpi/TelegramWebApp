@@ -28,6 +28,7 @@ def main() -> None:
     application.add_handler(CommandHandler("add_event", act.addevent))
     application.add_handler(CommandHandler("events", act.events))
     application.add_handler(CommandHandler("add_tag", act.addtag))
+    application.add_handler(CommandHandler("share", act.share))
 
     # User logic
     application.add_handler(CommandHandler("appointments", act.appoint))
